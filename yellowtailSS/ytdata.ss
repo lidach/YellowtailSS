@@ -1,181 +1,518 @@
 #V3.30.13-safe;_2019_03_09;_Stock_Synthesis_by_Richard_Methot_(NOAA)_using_ADMB_12.0
-#Stock Synthesis (SS) is a work of the U.S. Government and is not subject to copyright protection in the United States.
-#Foreign copyrights may apply. See copyright.txt for more information.
-#_user_support_available_at:NMFS.Stock.Synthesis@noaa.gov
-#_user_info_available_at:https://vlab.ncep.noaa.gov/group/stock-synthesis
-#_Start_time: Fri Mar 15 10:18:43 2019
-#_Number_of_datafiles: 1
 #C data file for simple example
-#_observed data: 
-#V3.30.13-safe;_2019_03_09;_Stock_Synthesis_by_Richard_Methot_(NOAA)_using_ADMB_12.0
-#Stock Synthesis (SS) is a work of the U.S. Government and is not subject to copyright protection in the United States.
-#Foreign copyrights may apply. See copyright.txt for more information.
-1971 #_StartYr
-2001 #_EndYr
-1 #_Nseas
- 12 #_months/season
-2 #_Nsubseasons (even number, minimum is 2)
-1 #_spawn_month
-2 #_Ngenders: 1, 2, -1  (use -1 for 1 sex setup with SSB multiplied by female_frac parameter)
-40 #_Nages=accumulator age, first age is always age 0
-1 #_Nareas
-2 #_Nfleets (including surveys)
-#_fleet_type: 1=catch fleet; 2=bycatch only fleet; 3=survey; 4=ignore 
-#_sample_timing: -1 for fishing fleet to use season-long catch-at-age for observations, or 1 to use observation month;  (always 1 for surveys)
-#_fleet_area:  area the fleet/survey operates in 
-#_units of catch:  1=bio; 2=num (ignored for surveys; their units read later)
-#_catch_mult: 0=no; 1=yes
-#_rows are fleets
-#_fleet_type fishery_timing area catch_units need_catch_mult fleetname
- 1 -1 1 1 0 FISHERY1  # 1
- 3 1 1 2 0 SURVEY1  # 2
-#Bycatch_fleet_input_goes_next
-#a:  fleet index
-#b:  1=include dead bycatch in total dead catch for F0.1 and MSY optimizations and forecast ABC; 2=omit from total catch for these purposes (but still include the mortality)
-#c:  1=Fmult scales with other fleets; 2=bycatch F constant at input value; 3=bycatch F from range of years
-#d:  F or first year of range
-#e:  last year of range
-#f:  not used
-# a   b   c   d   e   f 
-#_Catch data: yr, seas, fleet, catch, catch_se
-#_catch_se:  standard error of log(catch)
-#_NOTE:  catch data is ignored for survey fleets
--999 1 1 0 0.01
-1971 1 1 0 0.01
-1972 1 1 200 0.01
-1973 1 1 1000 0.01
-1974 1 1 1000 0.01
-1975 1 1 2000 0.01
-1976 1 1 2000 0.01
-1977 1 1 3000 0.01
-1978 1 1 3000 0.01
-1979 1 1 4000 0.01
-1980 1 1 4000 0.01
-1981 1 1 5000 0.01
-1982 1 1 5000 0.01
-1983 1 1 6000 0.01
-1984 1 1 6000 0.01
-1985 1 1 7000 0.01
-1986 1 1 7000 0.01
-1987 1 1 8000 0.01
-1988 1 1 8000 0.01
-1989 1 1 8000 0.01
-1990 1 1 8000 0.01
-1991 1 1 7000 0.01
-1992 1 1 7000 0.01
-1993 1 1 7000 0.01
-1994 1 1 7000 0.01
-1995 1 1 6000 0.01
-1996 1 1 6000 0.01
-1997 1 1 6000 0.01
-1998 1 1 5000 0.01
-1999 1 1 5000 0.01
-2000 1 1 5000 0.01
-2001 1 1 5000 0.01
--9999 0 0 0 0
+# ------------------------------------------------- initials
+1935	#_StartYr			
+2011	#_EndYr			
+1	#_Nseas			
+12	#_months/season			
+2	#_N_subseasons(even number, minimum is 2)			
+1	#_spawn_month			
+1	#_Ngenders: 1, 2, -1  (use -1 for 1 sex setup with SSB multiplied by female_frac parameter)			
+6	#_Nages:  this accumulator age should be large enough so that little growth occurs after reaching this age			
+1	#_N_areas			
+4	#_Nfleets (including surveys)			
+#_fleet_type: 1=catch fleet; 2=bycatch only fleet; 3=survey; 4=ignore 							
+#_sample_timing: -1 for fishing fleet to use season-long catch-at-age for observations, or 1 to use observation month;  (always 1 for surveys)							
+#_fleet_area:  area the fleet/survey operates in 							
+#_units of catch:  1=bio; 2=num (ignored for surveys; their units read later)							
+#_need_catch_mult: 0 = none, 1 = apply catch multiplier as parameter specified in the control file at the end of the growth parameters 							
+#_rows are fleets; columns are: fleet_type, timing, area, units, need_catch_mult							
+# Type	Timing	Area	Units	Multiplier	Name		
+1	-1	1	1	0	com_domestic	#1	
+1	-1	1	1	0	com_foreign		#2	
+3	1	1	2	0	spring_survey	#3	
+3	1	1	2	0	fall_survey 	#4
+# Bycatch_fleet_input_goes_next			
+#a:  fleet index			
+#b:  1=include dead bycatch in total dead catch for F0.1 and MSY optimizations and forecast ABC; 2=omit from total catch for these purposes (but still include the mortality)			
+#c:  1=Fmult scales with other fleets; 2=bycatch F constant at input value; 3=bycatch F from range of years			
+#d:  F or first year of range			
+#e:  last year of range			
+#f:  not used			
+# a   b   c   d   e   f 										
+# ------------------------------------------------- Catches			
+#Year	#Season	#Fleet_1	#Catch	#Catch_SE
+-999 	1 	1 	0 		0.01 	# -999 allows for initial equilibrium catch by fleet
+1935 	1 	1 	6000 	0.01	# com_domestic fleet 1
+1936 	1 	1 	6800 	0.01
+1937 	1 	1 	7600 	0.01
+1938 	1 	1 	7700 	0.01
+1939 	1 	1 	9500 	0.01
+1940 	1 	1 	14200 	0.01
+1941 	1 	1 	19300 	0.01
+1942 	1 	1 	28400 	0.01
+1943 	1 	1 	18000 	0.01
+1944 	1 	1 	10600 	0.01
+1945 	1 	1 	10400	0.01
+1946 	1 	1 	10800	0.01
+1947 	1 	1 	12100	0.01
+1948 	1 	1 	9900 	0.01
+1949 	1 	1 	4900 	0.01
+1950 	1 	1 	4900 	0.01
+1951 	1 	1 	2900 	0.01
+1952 	1 	1 	3200 	0.01
+1953 	1 	1 	2300 	0.01
+1954 	1 	1 	1700 	0.01
+1955 	1 	1 	2500 	0.01
+1956 	1 	1 	4100 	0.01
+1957 	1 	1 	6200 	0.01
+1958 	1 	1 	9500 	0.01
+1959 	1 	1 	8200 	0.01
+1960 	1 	1 	8800 	0.01
+1961 	1 	1 	13000	0.01
+1962 	1 	1 	13500	0.01
+1963 	1 	1 	22600	0.01
+1964 	1 	1 	21809	0.01
+1965 	1 	1 	22517	0.01
+1966 	1 	1 	22540	0.01
+1967 	1 	1 	25140	0.01
+1968 	1 	1 	25372	0.01
+1969 	1 	1 	23686	0.01
+1970 	1 	1 	21350	0.01
+1971 	1 	1 	15867	0.01
+1972 	1 	1 	17574	0.01
+1973 	1 	1 	12441	0.01
+1974 	1 	1 	8284 	0.01
+1975 	1 	1 	3833 	0.01
+1976 	1 	1 	1853 	0.01
+1977 	1 	1 	3335 	0.01
+1978 	1 	1 	3059 	0.01
+1979 	1 	1 	5452 	0.01
+1980 	1 	1 	6300 	0.01
+1981 	1 	1 	5400 	0.01
+1982 	1 	1 	10726	0.01
+1983 	1 	1 	18500	0.01
+1984 	1 	1 	10100	0.01
+1985 	1 	1 	3600 	0.01
+1986 	1 	1 	3548 	0.01
+1987 	1 	1 	1771 	0.01
+1988 	1 	1 	994 	0.01
+1989 	1 	1 	2897 	0.01
+1990 	1 	1 	8236 	0.01
+1991 	1 	1 	4113 	0.01
+1992 	1 	1 	1640 	0.01
+1993 	1 	1 	674 	0.01
+1994 	1 	1 	367 	0.01
+1995 	1 	1 	200 	0.01
+1996 	1 	1 	477 	0.01
+1997 	1 	1 	849 	0.01
+1998 	1 	1 	690 	0.01
+1999 	1 	1 	1307 	0.01
+2000 	1 	1 	1122 	0.01
+2001 	1 	1 	1295 	0.01
+2002 	1 	1 	792 	0.01
+2003 	1 	1 	496 	0.01
+2004 	1 	1 	489 	0.01
+2005 	1 	1 	242 	0.01
+2006 	1 	1 	209 	0.01
+2007 	1 	1 	205 	0.01
+2008 	1 	1 	192 	0.01
+2009 	1 	1 	185 	0.01
+2010 	1 	1 	113 	0.01
+2011 	1 	1 	245 	0.01
+1963 	1 	2 	200 	0.01	# com_foreign fleet 2
+1965 	1 	2 	1400 	0.01
+1966 	1 	2 	700 	0.01
+1967 	1 	2 	2800 	0.01
+1968 	1 	2 	3500 	0.01
+1969 	1 	2 	18283 	0.01
+1970 	1 	2 	2618 	0.01
+1971 	1 	2 	1261 	0.01
+1972 	1 	2 	3117 	0.01
+1973 	1 	2 	397 	0.01
+1974 	1 	2 	116 	0.01
+1975 	1 	2 	3 		0.01
+-9999 	0 	0 	0 		0		# -9999 indicates the end of catch records to be read
+# ------------------------------------------------- CPUE			
+#_Units:	0=numbers;	1=biomass;	2=F		
+#_Errtype:	-1=normal;	0=lognormal;	>0=T		
+#_SD_Report: 0=no sdreport; 1=enable sdreport					
+#_Fleet/ Survey	Units	Errtype	Sd_Report		
+1	0	0	0	# com_domestic 1	
+2	0	0	0	# com_foreign 2	
+3	1	0	0	# spring_survey 3	
+4 	1 	0 	0	# fall_survey 4
+#_year	month	Fleet/ Survey	obs	err	# comment
+1968	3	3	102.7	0.16	# spring_survey fleet 3
+1969	3	3	81.8	0.13
+1970	3	3	62	0.15
+1971	3	3	50	0.13
+1972	3	3	51.6	0.17
+1973	3	3	27.5	0.12
+1974	3	3	11	0.22
+1975	3	3	2.9	0.19
+1976	3	3	3.6	0.21
+1977	3	3	4.2	0.29
+1978	3	3	11.2	0.18
+1979	3	3	3.5	0.22
+1980	3	3	8.8	0.13
+1981	3	3	16.2	0.19
+1982	3	3	26	0.19
+1983	3	3	18.2	0.15
+1984	3	3	5	0.18
+1985	3	3	3.6	0.26
+1986	3	3	4.2	0.13
+1987	3	3	1	0.24
+1988	3	3	1.2	0.26
+1989	3	3	10.2	0.18
+1990	3	3	15.5	0.21
+1991	3	3	6.9	0.14
+1992	3	3	2.2	0.2
+1993	3	3	0.9	0.23
+1994	3	3	0.3	0.29
+1995	3	3	1.4	0.2
+1996	3	3	2.3	0.25
+1997	3	3	2.5	0.35
+1998	3	3	3.7	0.23
+1999	3	3	3.1	0.13
+2000	3	3	2.9	0.18
+2001	3	3	1.6	0.24
+2002	3	3	1.7	0.37
+2003	3	3	0.4	0.36
+2004	3	3	0.6	0.36
+2005	3	3	0.7	0.25
+2006	3	3	2	0.38
+2007	3	3	1.5	0.2
+2008	3	3	1.3	0.58
+2009	3	3	2	0.29
+2010	3	3	2.8	0.12
+2011	3	3	2.3	0.17
+1963	10	4	54.1	0.19	# fall_survey fleet 4
+1964	10	4	54.8	0.19
+1965	10	4	51.8	0.35
+1966	10	4	60.4	0.22
+1967	10	4	81.9	0.16
+1968	10	4	76	0.23
+1969	10	4	72.5	0.27
+1970	10	4	79.3	0.27
+1971	10	4	59.2	0.31
+1972	10	4	150.5	0.37
+1973	10	4	15.1	0.43
+1974	10	4	6.3	0.42
+1975	10	4	2.9	0.5
+1976	10	4	8.7	0.35
+1977	10	4	4.6	0.33
+1978	10	4	7.8	0.26
+1979	10	4	6.9	0.2
+1980	10	4	5.3	0.37
+1981	10	4	21.4	0.25
+1982	10	4	30.5	0.41
+1983	10	4	23.6	0.32
+1984	10	4	5.6	0.29
+1985	10	4	1.2	0.35
+1986	10	4	2.7	0.33
+1987	10	4	2	0.42
+1988	10	4	5	0.25
+1989	10	4	10.3	0.32
+1990	10	4	4.8	0.35
+1991	10	4	2.3	0.3
+1992	10	4	0.5	0.48
+1993	10	4	0.5	0.37
+1994	10	4	1.5	0.41
+1995	10	4	1.2	0.69
+1996	10	4	0.9	0.48
+1997	10	4	3.1	0.32
+1998	10	4	2.7	0.41
+1999	10	4	2	0.61
+2000	10	4	2.2	0.53
+2001	10	4	1.2	0.47
+2002	10	4	3	0.46
+2003	10	4	2.3	0.55
+2004	10	4	0.3	0.35
+2005	10	4	2.6	0.26
+2006	10	4	3.5	0.32
+2007	10	4	1.7	0.42
+2008	10	4	3.3	0.39
+2009	10	4	1.7	0.34
+2010	10	4	12.3	0.52
+2011	10	4	1.7	0.68
+-9999 	1 	1 	1 	1   # terminator for survey observations 																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																						
 #
- #_CPUE_and_surveyabundance_observations
-#_Units:  0=numbers; 1=biomass; 2=F; >=30 for special types
-#_Errtype:  -1=normal; 0=lognormal; >0=T
-#_SD_Report: 0=no sdreport; 1=enable sdreport
-#_Fleet Units Errtype SD_Report
-1 1 0 0 # FISHERY1
-2 1 0 0 # SURVEY1
-#_yr month fleet obs stderr
-1977    7   2   96231   0.3 #No Error Value     128065
-1980    7   2   102746  0.3 #No Error Value     111174
-1983    7   2   119516  0.3 #No Error Value     103059
-1986    7   2   73524   0.3 #No Error Value     83241.2
-1989    7   2   82103   0.3 #No Error Value     73007.3
-1992    7   2   59944   0.3 #No Error Value     66026.9
-1995    7   2   45065   0.3 #No Error Value     47110.2
-1998    7   2   44893   0.3 #No Error Value     43458.9
-2001    7   2   80612   0.3 #No Error Value     48312.1
--9999 1 1 1 1 # terminator for survey observations 
-#
-0 #_N_fleets_with_discard
-#_discard_units (1=same_as_catchunits(bio/num); 2=fraction; 3=numbers)
-#_discard_errtype:  >0 for DF of T-dist(read CV below); 0 for normal with CV; -1 for normal with se; -2 for lognormal; -3 for trunc normal with CV
-# note, only have units and errtype for fleets with discard 
-#_Fleet units errtype
-# -9999 0 0 0.0 0.0 # terminator for discard data 
-#
-0 #_use meanbodysize_data (0/1)
-#_COND_0 #_DF_for_meanbodysize_T-distribution_like
-# note:  type=1 for mean length; type=2 for mean body weight 
-#_yr month fleet part type obs stderr
-#  -9999 0 0 0 0 0 0 # terminator for mean body size data 
-#
-# set up population length bin structure (note - irrelevant if not using size data and using empirical wtatage
-2 # length bin method: 1=use databins; 2=generate from binwidth,min,max below; 3=read vector
-2 # binwidth for population size comp 
-10 # minimum size in the population (lower edge of first bin and size at age 0.00) 
-94 # maximum size in the population (lower edge of last bin) 
-0 # use length composition data (0/1)
-# see manual for format of length composition data 
-#
-17 #_N_age_bins
- 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 20 25
-2 #_N_ageerror_definitions
- 0.5 1.5 2.5 3.5 4.5 5.5 6.5 7.5 8.5 9.5 10.5 11.5 12.5 13.5 14.5 15.5 16.5 17.5 18.5 19.5 20.5 21.5 22.5 23.5 24.5 25.5 26.5 27.5 28.5 29.5 30.5 31.5 32.5 33.5 34.5 35.5 36.5 37.5 38.5 39.5 40.5
- 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001
- 0.5 1.5 2.5 3.5 4.5 5.5 6.5 7.5 8.5 9.5 10.5 11.5 12.5 13.5 14.5 15.5 16.5 17.5 18.5 19.5 20.5 21.5 22.5 23.5 24.5 25.5 26.5 27.5 28.5 29.5 30.5 31.5 32.5 33.5 34.5 35.5 36.5 37.5 38.5 39.5 40.5
- 0.5 0.65 0.67 0.7 0.73 0.76 0.8 0.84 0.88 0.92 0.97 1.03 1.09 1.16 1.23 1.32 1.41 1.51 1.62 1.75 1.89 2.05 2.23 2.45 2.71 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3
-#_mintailcomp: upper and lower distribution for females and males separately are accumulated until exceeding this level.
-#_addtocomp:  after accumulation of tails; this value added to all bins
-#_males and females treated as combined gender below this bin number 
-#_compressbins: accumulate upper tail by this number of bins; acts simultaneous with mintailcomp; set=0 for no forced accumulation
-#_Comp_Error:  0=multinomial, 1=dirichlet
-#_Comp_Error2:  parm number  for dirichlet
-#_minsamplesize: minimum sample size; set to 1 to match 3.24, minimum value is 0.001
+# ------------------------------------------------- Discards						
+1	#_N_fleets_with_discard							
+#_discard_units  (1=same_as_catchunits(bio/num); 2=fraction; 3=numbers)								
+#_discard_errortype: 								
+# >0 for DF of T-dist(read CV below);								
+# -1 for normal with se;				Note units = 1 means biomass if retained catch has biomass units, but number if retained catch has number units				
+# -2 for lognormal;								
+# -3 for trunc normal with CV								
+#_Fleet	units	errtype						
+1	1	-2	# com_domestic # 1 					
+#_year	month	Fleet	obs	err	# comment			
+1935	1	1	2400	0.01	# com_domestic fleet 1
+1936	1	1	2700	0.01
+1937	1	1	3000	0.01
+1938	1	1	3100	0.01
+1939	1	1	3800	0.01
+1940	1	1	5700	0.01
+1941	1	1	7700	0.01
+1942	1	1	9900	0.01
+1943	1	1	7300	0.01
+1944	1	1	4800	0.01
+1945	1	1	4200	0.01
+1946	1	1	4400	0.01
+1947	1	1	4900	0.01
+1948	1	1	4000	0.01
+1949	1	1	1900	0.01
+1950	1	1	1900	0.01
+1951	1	1	1100	0.01
+1952	1	1	1200	0.01
+1953	1	1	800	0.01
+1954	1	1	600	0.01
+1955	1	1	900	0.01
+1956	1	1	1400	0.01
+1957	1	1	2200	0.01
+1958	1	1	3600	0.01
+1959	1	1	3100	0.01
+1960	1	1	3200	0.01
+1961	1	1	4700	0.01
+1962	1	1	5300	0.01
+1963	1	1	5400	0.01
+1964	1	1	9500	0.01
+1965	1	1	7000	0.01
+1966	1	1	5300	0.01
+1967	1	1	7700	0.01
+1968	1	1	6300	0.01
+1969	1	1	2400	0.01
+1970	1	1	4500	0.01
+1971	1	1	2200	0.01
+1972	1	1	1800	0.01
+1973	1	1	1711	0.01
+1974	1	1	8688	0.01
+1975	1	1	1896	0.01
+1976	1	1	1583	0.01
+1977	1	1	1888	0.01
+1978	1	1	5026	0.01
+1979	1	1	4431	0.01
+1980	1	1	1721	0.01
+1981	1	1	1207	0.01
+1982	1	1	5038	0.01
+1983	1	1	3711	0.01
+1984	1	1	1125	0.01
+1985	1	1	1217	0.01
+1986	1	1	1072	0.01
+1987	1	1	881	0.01
+1988	1	1	1788	0.01
+1989	1	1	5452	0.01
+1990	1	1	9680	0.01
+1991	1	1	2317	0.01
+1992	1	1	1055	0.01
+1993	1	1	97	0.01
+1994	1	1	367	0.01
+1995	1	1	142	0.01
+1996	1	1	282	0.01
+1997	1	1	373	0.01
+1998	1	1	396	0.01
+1999	1	1	96	0.01
+2000	1	1	275	0.01
+2001	1	1	154	0.01
+2002	1	1	153	0.01
+2003	1	1	169	0.01
+2004	1	1	130	0.01
+2005	1	1	104	0.01
+2006	1	1	187	0.01
+2007	1	1	296	0.01
+2008	1	1	391	0.01
+2009	1	1	268	0.01
+2010	1	1	177	0.01
+2011	1	1	145	0.01		
+-9999	0	0	0	0.00	#terminator			
+#													
+# -------------------------------------------------	Mean size					
+0	#_Use mean body size data (0/1)	
+#_COND_0 # DF for mean body size
+# note: type = 1 for mean length; type = 2 for mean body weight
+#_yr	month	fleet 	part	type	obs 	sderr
+# -9999	0 0 0 0 0 0 # terminator for mean body size data						
+#		
+# -------------------------------------------------	Length comps			
+# Population length bins are needed even if there are no size data. These define the resolution at which the mean weight-at-length, maturity-at-length and size-selectivity are based.  Calculations use the mid-length of the population bins.								
+# set up population length bin structure (note - irrelevant if not using size data and using empirical wtatage)								
+2	# length bin method: 1=use databins(read below); 2=generate from binwidth,min,max below; 3=read vector							
+1	# binwidth for population size comp							
+10	# minimum size in the population (lower edge of first bin and size at age 0.00)							
+94	# maximum size in the population (lower edge of last bin)							
+0	# use length composition data (0/1)	
+# -------------------------------------------------	Age comps	
+7 #_N_age_bins
+0	1	2	3	4	5	6
+1 #_N_ageerror_def
+0.5	1.5	2.5	3.5	4.5	5.5	6.5 # Expected Age
+0.001	0.001	0.001	0.001	0.001	0.001	0.001 # SE
+#_mintailcomp: upper and lower distribution for females and males separately are accumulated until exceeding this level.								
+#_addtocomp:  after accumulation of tails; this value added to all bins								
+#_males and females treated as combined gender below this bin number 								
+#_compressbins: accumulate upper tail by this number of bins; acts simultaneous with mintailcomp; set=0 for no forced accumulation								
+#_mintailcomp_addtocomp_combM+F_CompressBins_CompError_ParmSelect								
+#_Comp_Error: 0 = multinomial, 1 = dirichlet								
+#ParmSelect: parameter number for DM weighting. 					See Control helper spreadsheet or SS manual for details on how to use DM weighting			
+#_minsamplesize: minimum sample size; set to 1 to match 3.24, minimum value is 0.001								
 #_mintailcomp addtocomp combM+F CompressBins CompError ParmSelect minsamplesize
-0 1e-07 1 0 0 0 1 #_fleet:1_FISHERY1
-0 1e-07 1 0 0 0 1 #_fleet:2_SURVEY1
-1 #_Lbin_method_for_Age_Data: 1=poplenbins; 2=datalenbins; 3=lengths
+0	1.00E-07	0	0	0	0	0.01	# com_domestic 1
+0	1.00E-07	0	0	0	0	0.01	# com_foreign 2
+0	1.00E-07	0	0	0	0	0.01	# spring_survey 3
+0	1.00E-07	0	0	0	0	0.01	# fall_survey 4
+1	#_Lbin_method_for_Age_Data: 1=poplenbins; 2=datalenbins; 3=lengths										
 # sex codes:  0=combined; 1=use female only; 2=use male only; 3=use both as joint sexxlength distribution
 # partition codes:  (0=combined; 1=discard; 2=retained
-#_yr month fleet sex part ageerr Lbin_lo Lbin_hi Nsamp datavector(female-male)
-1971    7   1   3   0   2   1   -1  75  0.0000  0.0000  0.0000  0.0000  0.1000  0.0333  0.0333  0.0413  0.0347  0.0293  0.0187  0.0320  0.0293  0.0213  0.0653  0.0400  0.0640  0.0000  0.0000  0.0253  0.0387  0.0373  0.0320  0.0347  0.0280  0.0413  0.0320  0.0240  0.0227  0.0173  0.0227  0.0613  0.0227  0.0173
-1972    7   1   3   0   2   1   -1  75  0.0013  0.0067  0.0173  0.0307  0.0467  0.0440  0.0400  0.0387  0.0293  0.0413  0.0320  0.0267  0.0200  0.0227  0.0813  0.0453  0.0387  0.0000  0.0000  0.0253  0.0240  0.0267  0.0400  0.0427  0.0333  0.0307  0.0280  0.0253  0.0147  0.0227  0.0227  0.0640  0.0133  0.0240
-1973    7   1   3   0   2   1   -1  75  0.0000  0.0000  0.0213  0.0413  0.0280  0.0427  0.0347  0.0413  0.0467  0.0253  0.0227  0.0280  0.0280  0.0213  0.0707  0.0413  0.0507  0.0000  0.0000  0.0000  0.0560  0.0413  0.0360  0.0373  0.0320  0.0387  0.0293  0.0160  0.0173  0.0133  0.0133  0.0667  0.0293  0.0293
-1974    7   1   3   0   2   1   -1  75  0.0000  0.0000  0.0267  0.0360  0.0400  0.0480  0.0507  0.0267  0.0400  0.0387  0.0320  0.0107  0.0267  0.0240  0.0840  0.0440  0.0360  0.0000  0.0000  0.0320  0.0267  0.0333  0.0280  0.0373  0.0413  0.0213  0.0320  0.0280  0.0267  0.0160  0.0093  0.0520  0.0213  0.0307
-1975    7   1   3   0   2   1   -1  75  0.0000  0.0000  0.0293  0.0280  0.0320  0.0440  0.0480  0.0360  0.0413  0.0280  0.0307  0.0293  0.0133  0.0147  0.0947  0.0467  0.0560  0.0000  0.0000  0.0000  0.0000  0.0733  0.0387  0.0347  0.0307  0.0373  0.0187  0.0213  0.0200  0.0147  0.0200  0.0627  0.0227  0.0333
-1976    7   1   3   0   2   1   -1  75  0.0000  0.0000  0.0253  0.0240  0.0440  0.0333  0.0427  0.0440  0.0347  0.0440  0.0267  0.0360  0.0307  0.0240  0.0800  0.0427  0.0400  0.0000  0.0000  0.0000  0.0000  0.0733  0.0373  0.0293  0.0320  0.0467  0.0213  0.0253  0.0173  0.0213  0.0093  0.0613  0.0533  0.0000
-1977    7   1   3   0   2   1   -1  75  0.0000  0.0000  0.0000  0.0000  0.0773  0.0387  0.0467  0.0453  0.0400  0.0293  0.0360  0.0280  0.0293  0.0187  0.0667  0.0507  0.0600  0.0000  0.0000  0.0253  0.0160  0.0173  0.0333  0.0267  0.0280  0.0400  0.0373  0.0307  0.0253  0.0147  0.0200  0.0667  0.0227  0.0293
-1978    7   1   3   0   2   1   -1  75  0.0000  0.0000  0.0240  0.0240  0.0213  0.0293  0.0347  0.0627  0.0373  0.0467  0.0453  0.0280  0.0267  0.0280  0.0800  0.0427  0.0347  0.0000  0.0000  0.0227  0.0333  0.0307  0.0307  0.0293  0.0400  0.0253  0.0160  0.0267  0.0213  0.0227  0.0133  0.0627  0.0347  0.0253
-1979    7   1   3   0   2   1   -1  75  0.0000  0.0240  0.0400  0.0333  0.0307  0.0200  0.0360  0.0387  0.0387  0.0427  0.0333  0.0267  0.0253  0.0173  0.0773  0.0960  0.0000  0.0000  0.0000  0.0453  0.0267  0.0227  0.0187  0.0333  0.0240  0.0333  0.0320  0.0227  0.0147  0.0173  0.0160  0.0533  0.0240  0.0360
-1980    7   1   3   0   2   1   -1  75  0.0000  0.0080  0.0440  0.0627  0.0360  0.0280  0.0240  0.0347  0.0387  0.0400  0.0280  0.0227  0.0107  0.0267  0.0653  0.0813  0.0000  0.0000  0.0000  0.0000  0.0987  0.0333  0.0320  0.0160  0.0293  0.0360  0.0253  0.0227  0.0173  0.0173  0.0080  0.0560  0.0333  0.0240
-1981    7   1   3   0   2   1   -1  75  0.0000  0.0107  0.0387  0.0680  0.0600  0.0280  0.0333  0.0293  0.0253  0.0293  0.0213  0.0227  0.0253  0.0200  0.0533  0.0347  0.0453  0.0000  0.0000  0.0453  0.0520  0.0867  0.0267  0.0213  0.0280  0.0187  0.0160  0.0253  0.0147  0.0133  0.0200  0.0387  0.0253  0.0227
-1982    7   1   3   0   2   1   -1  75  0.0000  0.0053  0.0160  0.0533  0.0587  0.0613  0.0320  0.0267  0.0320  0.0240  0.0320  0.0240  0.0160  0.0040  0.0640  0.0347  0.0400  0.0000  0.0000  0.0000  0.0000  0.1267  0.0707  0.0413  0.0293  0.0240  0.0253  0.0120  0.0160  0.0240  0.0093  0.0427  0.0547  0.0000
-1983    7   1   3   0   2   1   -1  75  0.0000  0.0000  0.0000  0.0773  0.0533  0.0547  0.0707  0.0347  0.0307  0.0187  0.0213  0.0240  0.0213  0.0187  0.0480  0.0293  0.0480  0.0000  0.0000  0.0333  0.0400  0.0520  0.0520  0.0667  0.0347  0.0240  0.0133  0.0107  0.0133  0.0120  0.0147  0.0427  0.0173  0.0227
-1984    7   1   3   0   2   1   -1  75  0.0000  0.0000  0.0000  0.0693  0.0413  0.0533  0.0800  0.0600  0.0440  0.0200  0.0133  0.0147  0.0107  0.0213  0.0707  0.0293  0.0480  0.0000  0.0000  0.0240  0.0280  0.0400  0.0533  0.0547  0.0533  0.0293  0.0147  0.0107  0.0227  0.0120  0.0067  0.0347  0.0240  0.0160
-1985    7   1   3   0   2   1   -1  75  0.0000  0.0000  0.0000  0.0773  0.0413  0.0427  0.0600  0.0627  0.0547  0.0307  0.0160  0.0200  0.0133  0.0080  0.0480  0.0320  0.0347  0.0000  0.0000  0.0000  0.1040  0.0240  0.0413  0.0453  0.0600  0.0453  0.0200  0.0200  0.0093  0.0120  0.0013  0.0307  0.0307  0.0147
-1986    7   1   3   0   2   1   -1  75  0.0000  0.0200  0.0293  0.0467  0.0427  0.0467  0.0427  0.0480  0.0720  0.0520  0.0293  0.0173  0.0107  0.0080  0.0387  0.0267  0.0267  0.0000  0.0000  0.0000  0.0000  0.1267  0.0387  0.0347  0.0347  0.0453  0.0307  0.0187  0.0133  0.0173  0.0027  0.0453  0.0347  0.0000
-1987    7   1   3   0   2   1   -1  75  0.0000  0.0253  0.0373  0.0800  0.0853  0.0467  0.0213  0.0387  0.0547  0.0373  0.0347  0.0200  0.0107  0.0053  0.0240  0.0373  0.0000  0.0000  0.0000  0.0747  0.0467  0.0640  0.0427  0.0320  0.0227  0.0387  0.0200  0.0240  0.0227  0.0080  0.0067  0.0173  0.0080  0.0133
-1988    7   1   3   0   2   1   -1  75  0.0040  0.0147  0.0400  0.0800  0.0653  0.0667  0.0493  0.0253  0.0280  0.0333  0.0320  0.0240  0.0213  0.0093  0.0347  0.0453  0.0000  0.0000  0.0093  0.0533  0.0573  0.0587  0.0467  0.0307  0.0160  0.0253  0.0240  0.0267  0.0160  0.0133  0.0080  0.0240  0.0173  0.0000
-1989    7   1   3   0   2   1   -1  75  0.0000  0.0240  0.0360  0.0680  0.0867  0.0627  0.0707  0.0253  0.0173  0.0147  0.0253  0.0200  0.0173  0.0200  0.0293  0.0320  0.0000  0.0000  0.0000  0.0533  0.0467  0.0773  0.0480  0.0440  0.0293  0.0173  0.0160  0.0227  0.0227  0.0160  0.0093  0.0293  0.0187  0.0000
-1990    7   1   3   0   2   1   -1  75  0.0000  0.0000  0.0613  0.1013  0.0693  0.0720  0.0627  0.0400  0.0293  0.0133  0.0120  0.0200  0.0173  0.0173  0.0240  0.0307  0.0000  0.0000  0.0133  0.0507  0.0453  0.0440  0.0587  0.0627  0.0373  0.0213  0.0093  0.0160  0.0147  0.0093  0.0133  0.0187  0.0147  0.0000
-1991    7   1   3   0   2   1   -1  75  0.0000  0.0000  0.0467  0.0627  0.0880  0.0800  0.0680  0.0373  0.0387  0.0133  0.0267  0.0107  0.0040  0.0080  0.0267  0.0213  0.0000  0.0000  0.0067  0.0293  0.0600  0.0613  0.0507  0.0640  0.0600  0.0347  0.0293  0.0200  0.0067  0.0080  0.0067  0.0173  0.0133  0.0000
-1992    7   1   3   0   2   1   -1  75  0.0000  0.0000  0.0440  0.0453  0.0840  0.0867  0.0733  0.0760  0.0453  0.0280  0.0160  0.0093  0.0133  0.0093  0.0093  0.0120  0.0107  0.0000  0.0000  0.0400  0.0280  0.0613  0.0707  0.0493  0.0533  0.0373  0.0200  0.0160  0.0147  0.0053  0.0080  0.0267  0.0067  0.0000
-1993    7   1   3   0   2   1   -1  75  0.0000  0.0000  0.0373  0.0413  0.0520  0.0693  0.0800  0.0653  0.0667  0.0427  0.0227  0.0133  0.0147  0.0547  0.0000  0.0000  0.0000  0.0000  0.0000  0.0333  0.0440  0.0453  0.0653  0.0733  0.0547  0.0360  0.0320  0.0200  0.0093  0.0053  0.0013  0.0200  0.0000  0.0000
-1994    7   1   3   0   2   1   -1  75  0.0000  0.0000  0.0373  0.0440  0.0533  0.0533  0.0680  0.0587  0.0693  0.0427  0.0267  0.0187  0.0133  0.0120  0.0240  0.0107  0.0107  0.0000  0.0000  0.0000  0.0707  0.0480  0.0373  0.0680  0.0800  0.0373  0.0347  0.0293  0.0187  0.0333  0.0000  0.0000  0.0000  0.0000
-1995    7   1   3   0   2   1   -1  75  0.0080  0.0067  0.0293  0.0440  0.0520  0.0467  0.0667  0.0680  0.0693  0.0427  0.0253  0.0320  0.0120  0.0413  0.0000  0.0000  0.0000  0.0000  0.0000  0.0000  0.0960  0.0427  0.0400  0.0467  0.0560  0.0547  0.0373  0.0187  0.0200  0.0133  0.0027  0.0187  0.0080  0.0013
-1996    7   1   3   0   2   1   -1  75  0.0000  0.0000  0.0533  0.0587  0.0400  0.0560  0.0573  0.0480  0.0640  0.0533  0.0347  0.0173  0.0120  0.0227  0.0200  0.0080  0.0000  0.0000  0.0160  0.0213  0.0573  0.0507  0.0453  0.0413  0.0467  0.0360  0.0400  0.0400  0.0147  0.0080  0.0053  0.0320  0.0000  0.0000
-1997    7   1   3   0   2   1   -1  75  0.0000  0.0600  0.0973  0.0787  0.0467  0.0227  0.0293  0.0280  0.0293  0.0440  0.0213  0.0280  0.0120  0.0133  0.0280  0.0000  0.0000  0.0000  0.0000  0.0000  0.2227  0.0373  0.0333  0.0227  0.0240  0.0187  0.0173  0.0187  0.0280  0.0120  0.0267  0.0000  0.0000  0.0000
-1998    7   1   3   0   2   1   -1  75  0.0000  0.0147  0.0680  0.1333  0.0733  0.0613  0.0253  0.0200  0.0200  0.0173  0.0213  0.0200  0.0173  0.0093  0.0213  0.0000  0.0000  0.0000  0.0000  0.0640  0.1320  0.0840  0.0627  0.0280  0.0133  0.0213  0.0173  0.0120  0.0120  0.0093  0.0107  0.0080  0.0027  0.0000
-1999    7   1   3   0   2   1   -1  75  0.0013  0.0067  0.0213  0.0933  0.1600  0.0920  0.0453  0.0307  0.0173  0.0147  0.0160  0.0080  0.0067  0.0107  0.0267  0.0000  0.0000  0.0000  0.0093  0.0187  0.0720  0.1120  0.0813  0.0373  0.0187  0.0107  0.0240  0.0173  0.0120  0.0133  0.0080  0.0147  0.0000  0.0000
-2000    7   1   3   0   2   1   -1  75  0.0000  0.0253  0.0240  0.0480  0.0880  0.1373  0.0853  0.0533  0.0240  0.0093  0.0253  0.0107  0.0080  0.0080  0.0240  0.0000  0.0000  0.0000  0.0000  0.0227  0.0280  0.0973  0.1133  0.0587  0.0200  0.0173  0.0147  0.0107  0.0107  0.0107  0.0093  0.0160  0.0000  0.0000
-2001    7   1   3   0   2   1   -1  75  0.0000  0.0080  0.0160  0.0320  0.0600  0.0827  0.1293  0.0760  0.0307  0.0213  0.0120  0.0107  0.0080  0.0067  0.0347  0.0000  0.0000  0.0000  0.0000  0.0280  0.0227  0.0467  0.1040  0.1107  0.0733  0.0320  0.0173  0.0080  0.0067  0.0093  0.0013  0.0120  0.0000  0.0000
-1977    7   2   3   0   2   1   -1  75  0.0133  0.0080  0.0187  0.0227  0.0347  0.0453  0.0587  0.0280  0.0373  0.0387  0.0227  0.0320  0.0267  0.0173  0.0747  0.1040  0.0000  0.0000  0.0107  0.0133  0.0120  0.0213  0.0427  0.0453  0.0413  0.0213  0.0400  0.0173  0.0253  0.0173  0.0147  0.0413  0.0533  0.0000
-1980    7   2   3   0   2   1   -1  75  0.0067  0.0160  0.0320  0.0587  0.0507  0.0427  0.0333  0.0347  0.0240  0.0360  0.0253  0.0267  0.0133  0.0173  0.0680  0.0347  0.0427  0.0000  0.0120  0.0333  0.0320  0.0200  0.0320  0.0213  0.0280  0.0307  0.0347  0.0373  0.0200  0.0173  0.0093  0.0613  0.0293  0.0187
-1983    7   2   3   0   2   1   -1  75  0.0053  0.0053  0.0120  0.0373  0.0627  0.0787  0.0653  0.0333  0.0307  0.0240  0.0280  0.0187  0.0240  0.0213  0.0573  0.0733  0.0000  0.0000  0.0120  0.0187  0.0320  0.0573  0.0693  0.0653  0.0373  0.0160  0.0133  0.0107  0.0107  0.0080  0.0093  0.0307  0.0133  0.0187
-1986    7   2   3   0   2   1   -1  75  0.0093  0.0213  0.0453  0.0573  0.0613  0.0480  0.0400  0.0600  0.0520  0.0267  0.0280  0.0200  0.0067  0.0053  0.0467  0.0267  0.0227  0.0000  0.0000  0.0493  0.0600  0.0467  0.0373  0.0360  0.0347  0.0387  0.0187  0.0133  0.0067  0.0107  0.0080  0.0347  0.0280  0.0000
-1989    7   2   3   0   2   1   -1  75  0.0173  0.0147  0.0320  0.0707  0.0640  0.1013  0.0627  0.0333  0.0200  0.0160  0.0200  0.0133  0.0120  0.0627  0.0000  0.0000  0.0000  0.0000  0.0080  0.0480  0.0600  0.0800  0.0667  0.0480  0.0387  0.0320  0.0120  0.0227  0.0107  0.0333  0.0000  0.0000  0.0000  0.0000
-1992    7   2   3   0   2   1   -1  75  0.0027  0.0147  0.0200  0.0547  0.0787  0.1093  0.0707  0.0520  0.0480  0.0213  0.0120  0.0107  0.0053  0.0093  0.0280  0.0000  0.0000  0.0000  0.0040  0.0227  0.0360  0.0880  0.0760  0.0667  0.0560  0.0347  0.0200  0.0147  0.0027  0.0080  0.0080  0.0253  0.0000  0.0000
-1995    7   2   3   0   2   1   -1  75  0.0000  0.0440  0.0280  0.0400  0.0573  0.0413  0.0693  0.0613  0.0520  0.0547  0.0320  0.0173  0.0187  0.0027  0.0387  0.0000  0.0000  0.0000  0.0147  0.0240  0.0373  0.0533  0.0493  0.0387  0.0427  0.0560  0.0360  0.0227  0.0280  0.0120  0.0027  0.0253  0.0000  0.0000
-1998    7   2   3   0   2   1   -1  75  0.0067  0.0133  0.0613  0.1333  0.0627  0.0600  0.0347  0.0293  0.0200  0.0213  0.0187  0.0240  0.0133  0.0253  0.0000  0.0000  0.0000  0.0000  0.0160  0.0507  0.1373  0.0840  0.0453  0.0413  0.0133  0.0280  0.0187  0.0120  0.0107  0.0187  0.0000  0.0000  0.0000  0.0000
-2001    7   2   3   0   2   1   -1  75  0.0093  0.0080  0.0133  0.0360  0.0507  0.1080  0.1627  0.0627  0.0240  0.0213  0.0027  0.0053  0.0120  0.0120  0.0253  0.0000  0.0000  0.0000  0.0040  0.0213  0.0293  0.0427  0.0773  0.1013  0.0773  0.0320  0.0213  0.0027  0.0053  0.0040  0.0107  0.0173  0.0000  0.0000
--9999  0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+#Yr	Month Flt/Svy Sex Part Ageerr Lbin_lo Lbin_hi Nsamp datavector(female, then male)		
+1973	3	3	0	0	1	-1	-1	70	0	0.546	3.305	9.031	5.076	3.938	5.625
+1974	3	3	0	0	1	-1	-1	34	0	0.354	1.501	1.769	3.411	2.08	1.847
+1975	3	3	0	0	1	-1	-1	29	0	0.248	0.905	0.27	0.35	0.628	0.494
+1976	3	3	0	0	1	-1	-1	32	0	0.011	2.574	0.347	0.167	0.159	0.299
+1977	3	3	0	0	1	-1	-1	37	0	0.912	0.978	1.724	0.157	0.099	0.274
+1978	3	3	0	0	1	-1	-1	36	0	1.834	7.108	1.263	0.539	0.175	0.289
+1979	3	3	0	0	1	-1	-1	46	0	0.587	1.736	0.925	0.166	0.072	0.036
+1980	3	3	0	0	1	-1	-1	81	0	0.399	3.901	2.644	1.667	0.164	0.065
+1981	3	3	0	0	1	-1	-1	37	0	0.508	10.927	2.839	1.464	0.351	0.068
+1982	3	3	0	0	1	-1	-1	42	0	0.203	17.921	5.818	1.459	0.478	0.163
+1983	3	3	0	0	1	-1	-1	40	0	0.039	6.481	10.74	0.73	0.211	0.022
+1984	3	3	0	0	1	-1	-1	34	0	0.047	0.553	1.1	2.667	0.405	0.253
+1985	3	3	0	0	1	-1	-1	32	0	0.267	1.613	0.406	0.48	0.714	0.155
+1986	3	3	0	0	1	-1	-1	33	0	0.016	2.893	0.915	0.236	0.124	0.016
+1987	3	3	0	0	1	-1	-1	19	0	0	0.086	0.701	0.166	0	0
+1988	3	3	0	0	1	-1	-1	19	0	0.241	0.357	0.124	0.174	0.294	0.029
+1989	3	3	0	0	1	-1	-1	21	0	0.138	9.529	0.456	0.096	0	0
+1990	3	3	0	0	1	-1	-1	35	0	0.076	0.413	13.047	1.878	0.054	0
+1991	3	3	0	0	1	-1	-1	34	0	0.207	0.505	2.133	3.533	0.458	0.051
+1992	3	3	0	0	1	-1	-1	24	0	0.02	0.051	0.571	1.598	0	0
+1993	3	3	0	0	1	-1	-1	15	0	0.016	0.253	0.112	0.442	0.071	0
+1994	3	3	0	0	1	-1	-1	13	0	0	0.229	0.014	0	0.058	0.016
+1995	3	3	0	0	1	-1	-1	24	0	0.016	1.169	0.068	0.092	0.019	0.069
+1996	3	3	0	0	1	-1	-1	25	0	0	0.397	1.303	0.567	0.072	0
+1997	3	3	0	0	1	-1	-1	23	0	0.053	0.885	1.144	0.327	0.067	0
+1998	3	3	0	0	1	-1	-1	29	0	0.068	3.016	0.386	0.161	0.036	0.02
+1999	3	3	0	0	1	-1	-1	28	0	0.035	0.65	1.93	0.349	0.074	0.023
+2000	3	3	0	0	1	-1	-1	24	0	0.019	1.158	1.483	0.197	0.016	0
+2001	3	3	0	0	1	-1	-1	20	0	0	0.069	1.158	0.24	0.082	0.023
+2002	3	3	0	0	1	-1	-1	15	0	0.049	1.191	0.235	0.2	0.067	0
+2003	3	3	0	0	1	-1	-1	10	0	0.031	0.075	0.203	0.107	0.032	0
+2004	3	3	0	0	1	-1	-1	12	0	0.016	0.136	0.292	0.082	0.054	0.019
+2005	3	3	0	0	1	-1	-1	17	0	0.147	0.205	0.097	0.068	0.153	0.016
+2006	3	3	0	0	1	-1	-1	21	0	0.05	1.584	0.224	0.106	0	0.032
+2007	3	3	0	0	1	-1	-1	20	0	0	0.576	0.79	0.087	0	0
+2008	3	3	0	0	1	-1	-1	16	0	0	0.05	0.685	0.48	0.049	0
+2009	3	3	0	0	1	-1	-1	38	0	0.078	0.464	0.431	0.658	0.3	0.023
+2010	3	3	0	0	1	-1	-1	40	0	0.081	0.899	1.013	0.363	0.448	0.032
+2011	3	3	0	0	1	-1	-1	38	0	0.178	0.524	0.598	0.629	0.17	0.191
+1973	10	4	0	0	1	-1	-1	15	0	1.801	2.273	5.137	2.814	1.995	1.076
+1974	10	4	0	0	1	-1	-1	11	0	0.885	1.396	0.495	1.951	0.826	0.601
+1975	10	4	0	0	1	-1	-1	14	0	1.661	0.457	0.168	0.253	0.241	0.125
+1976	10	4	0	0	1	-1	-1	17	0	2.395	5.13	0.427	0.057	0.089	0.621
+1977	10	4	0	0	1	-1	-1	19	0	2.344	1.492	0.586	0.034	0.029	0.111
+1978	10	4	0	0	1	-1	-1	36	0	2.157	4.948	0.307	0.245	0.025	0.077
+1979	10	4	0	0	1	-1	-1	40	0	1.548	3.404	1.637	0.25	0.027	0.026
+1980	10	4	0	0	1	-1	-1	22	0	1.196	3.015	0.785	0.324	0	0
+1981	10	4	0	0	1	-1	-1	28	0	9.757	9.849	1.403	0.205	0.119	0.026
+1982	10	4	0	0	1	-1	-1	22	0	2.46	21.709	5.358	0.653	0.291	0
+1983	10	4	0	0	1	-1	-1	24	0	2.315	13.77	6.835	0.566	0.047	0.032
+1984	10	4	0	0	1	-1	-1	20	0	1.762	1.555	1.865	0.407	0	0
+1985	10	4	0	0	1	-1	-1	11	0	0.716	0.362	0.092	0.046	0	0
+1986	10	4	0	0	1	-1	-1	11	0	0.469	1.627	0.458	0.131	0.015	0
+1987	10	4	0	0	1	-1	-1	10	0	1.011	0.492	0.428	0.039	0.033	0.024
+1988	10	4	0	0	1	-1	-1	19	0	4.37	0.318	0.141	0.141	0.013	0.026
+1989	10	4	0	0	1	-1	-1	20	0	0.02	8.899	1.236	0.147	0.01	0
+1990	10	4	0	0	1	-1	-1	21	0	0.024	1.7	2.888	0.23	0	0
+1991	10	4	0	0	1	-1	-1	18	0	0.48	0.207	1.307	0.312	0	0
+1992	10	4	0	0	1	-1	-1	6	0	0.167	0.024	0.071	0.285	0	0
+1993	10	4	0	0	1	-1	-1	10	0	0.282	0.024	0.111	0.088	0	0
+1994	10	4	0	0	1	-1	-1	11	0	0.737	0.447	0.107	0.116	0.053	0.025
+1995	10	4	0	0	1	-1	-1	11	0	0.139	0.645	0.258	0.116	0	0.053
+1996	10	4	0	0	1	-1	-1	8	0	0.448	0.161	0.319	0	0	0
+1997	10	4	0	0	1	-1	-1	17	0	0.823	0.519	1.459	0.271	0.024	0
+1998	10	4	0	0	1	-1	-1	20	0	0.89	1.62	0.124	0.049	0	0.023
+1999	10	4	0	0	1	-1	-1	11	0	1.238	0.392	0.279	0.028	0.028	0
+2000	10	4	0	0	1	-1	-1	11	0	0.05	1.669	0.303	0.171	0	0.023
+2001	10	4	0	0	1	-1	-1	11	0	0.39	0.611	0.158	0.071	0	0
+2002	10	4	0	0	1	-1	-1	16	0	0.253	1.748	0.855	0.14	0	0
+2003	10	4	0	0	1	-1	-1	9	0	1.17	0.009	0.269	0.229	0	0.025
+2004	10	4	0	0	1	-1	-1	8	0	0.071	0.097	0	0.023	0.048	0.025
+2005	10	4	0	0	1	-1	-1	19	0	1.888	0.464	0.185	0.049	0.048	0
+2006	10	4	0	0	1	-1	-1	15	0	1.193	2.152	0.171	0.019	0	0
+2007	10	4	0	0	1	-1	-1	7	0	0.224	1.119	0.356	0	0.026	0
+2008	10	4	0	0	1	-1	-1	14	0	1.065	0.393	1.073	0.669	0.059	0.025
+2009	10	4	0	0	1	-1	-1	15	0	0.374	0.627	0.375	0.279	0.02	0
+2010	10	4	0	0	1	-1	-1	16	0	0.296	5.735	3.157	2.266	0.811	0
+2011	10	4	0	0	1	-1	-1	14	0	0.212	0.281	0.617	0.319	0.178	0.022
+1973	7	1	0	2	1	-1	-1	50	0	0.001	0.081	0.324	0.242	0.16	0.192
+1974	7	1	0	2	1	-1	-1	50	0	0.006	0.088	0.226	0.347	0.175	0.159
+1975	7	1	0	2	1	-1	-1	50	0	0.02	0.302	0.211	0.126	0.179	0.163
+1976	7	1	0	2	1	-1	-1	50	0	0	0.342	0.271	0.076	0.104	0.208
+1977	7	1	0	2	1	-1	-1	50	0	0.008	0.262	0.563	0.059	0.032	0.075
+1978	7	1	0	2	1	-1	-1	50	0	0.003	0.501	0.264	0.18	0.03	0.022
+1979	7	1	0	2	1	-1	-1	50	0	0.001	0.334	0.558	0.069	0.029	0.009
+1980	7	1	0	2	1	-1	-1	50	0	0.009	0.298	0.411	0.239	0.032	0.01
+1981	7	1	0	2	1	-1	-1	50	0	0	0.208	0.501	0.202	0.077	0.013
+1982	7	1	0	2	1	-1	-1	50	0	0.002	0.531	0.397	0.055	0.012	0.003
+1983	7	1	0	2	1	-1	-1	50	0	0.001	0.259	0.666	0.064	0.006	0.003
+1984	7	1	0	2	1	-1	-1	50	0	0.001	0.098	0.607	0.257	0.028	0.009
+1985	7	1	0	2	1	-1	-1	50	0	0.016	0.471	0.202	0.184	0.104	0.023
+1986	7	1	0	2	1	-1	-1	50	0	0.004	0.582	0.308	0.059	0.033	0.014
+1987	7	1	0	2	1	-1	-1	50	0	0.015	0.281	0.471	0.186	0.033	0.013
+1988	7	1	0	2	1	-1	-1	50	0	0	0.502	0.22	0.209	0.055	0.013
+1989	7	1	0	2	1	-1	-1	50	0	0	0.758	0.194	0.042	0.005	0
+1990	7	1	0	2	1	-1	-1	50	0	0	0.02	0.903	0.073	0.004	0
+1991	7	1	0	2	1	-1	-1	50	0	0	0.026	0.244	0.709	0.016	0.005
+1992	7	1	0	2	1	-1	-1	50	0	0	0.082	0.275	0.566	0.072	0.005
+1993	7	1	0	2	1	-1	-1	50	0	0	0.16	0.283	0.459	0.095	0.003
+1994	7	1	0	2	1	-1	-1	50	0	0	0.018	0.337	0.281	0.267	0.098
+1995	7	1	0	2	1	-1	-1	50	0	0	0	0.344	0.495	0.107	0.055
+1996	7	1	0	2	1	-1	-1	50	0	0	0.26	0.55	0.153	0.018	0.019
+1997	7	1	0	2	1	-1	-1	50	0	0	0.018	0.541	0.369	0.048	0.023
+1998	7	1	0	2	1	-1	-1	50	0	0	0.361	0.448	0.163	0.024	0.003
+1999	7	1	0	2	1	-1	-1	50	0	0.021	0.113	0.672	0.151	0.029	0.013
+2000	7	1	0	2	1	-1	-1	50	0	0.001	0.275	0.497	0.201	0.022	0.004
+2001	7	1	0	2	1	-1	-1	50	0	0	0.144	0.613	0.179	0.048	0.015
+2002	7	1	0	2	1	-1	-1	50	0	0	0.141	0.602	0.242	0.015	0
+2003	7	1	0	2	1	-1	-1	50	0	0	0.117	0.517	0.338	0.022	0.006
+2004	7	1	0	2	1	-1	-1	50	0	0	0.019	0.346	0.307	0.218	0.11
+2005	7	1	0	2	1	-1	-1	50	0	0	0.207	0.277	0.262	0.178	0.076
+2006	7	1	0	2	1	-1	-1	50	0	0	0.207	0.363	0.231	0.092	0.108
+2007	7	1	0	2	1	-1	-1	50	0	0	0.077	0.631	0.201	0.054	0.037
+2008	7	1	0	2	1	-1	-1	50	0	0	0.01	0.296	0.633	0.049	0.012
+2009	7	1	0	2	1	-1	-1	50	0	0	0.062	0.103	0.496	0.325	0.014
+2010	7	1	0	2	1	-1	-1	50	0	0	0.014	0.347	0.192	0.32	0.128
+2011	7	1	0	2	1	-1	-1	50	0	0	0.058	0.275	0.273	0.23	0.164
+1973	7	1	0	1	1	-1	-1	25	0	0.042	0.651	0.296	0.011	0	0
+1974	7	1	0	1	1	-1	-1	25	0	0.026	0.944	0.028	0.002	0	0
+1975	7	1	0	1	1	-1	-1	25	0	0.858	0.141	0	0.001	0	0
+1976	7	1	0	1	1	-1	-1	25	0	0.039	0.958	0.002	0	0	0
+1977	7	1	0	1	1	-1	-1	25	0	0.66	0.335	0.005	0	0	0
+1978	7	1	0	1	1	-1	-1	25	0	0.462	0.538	0	0	0	0
+1979	7	1	0	1	1	-1	-1	25	0	0.013	0.979	0.008	0	0	0
+1980	7	1	0	1	1	-1	-1	25	0	0.137	0.86	0.003	0	0	0
+1981	7	1	0	1	1	-1	-1	25	0	0.009	0.918	0.073	0	0	0
+1982	7	1	0	1	1	-1	-1	25	0	0.006	0.946	0.048	0	0	0
+1983	7	1	0	1	1	-1	-1	25	0	0.198	0.369	0.43	0.001	0.002	0
+1984	7	1	0	1	1	-1	-1	25	0	0.101	0.677	0.205	0.016	0	0
+1985	7	1	0	1	1	-1	-1	25	0	0.404	0.592	0.004	0	0	0
+1986	7	1	0	1	1	-1	-1	25	0	0.1	0.89	0.009	0	0	0
+1987	7	1	0	1	1	-1	-1	25	0	0.425	0.57	0.005	0	0	0
+1988	7	1	0	1	1	-1	-1	25	0	0.867	0.132	0.001	0	0	0
+1989	7	1	0	1	1	-1	-1	25	0	0.002	0.875	0.115	0.008	0	0
+1990	7	1	0	1	1	-1	-1	25	0	0.007	0.062	0.904	0.026	0	0
+1991	7	1	0	1	1	-1	-1	25	0	0.059	0.18	0.375	0.384	0.001	0
+1992	7	1	0	1	1	-1	-1	25	0	0.14	0.338	0.319	0.194	0.01	0
+1993	7	1	0	1	1	-1	-1	25	0	0.053	0.849	0.058	0.04	0	0
+1994	7	1	0	1	1	-1	-1	25	0	0.14	0.456	0.199	0.132	0.063	0.01
+1995	7	1	0	1	1	-1	-1	25	0	0.002	0.681	0.221	0.074	0.012	0.01
+1996	7	1	0	1	1	-1	-1	25	0	0.005	0.248	0.642	0.081	0.014	0.01
+1997	7	1	0	1	1	-1	-1	25	0	0.019	0.162	0.545	0.243	0.025	0.006
+1998	7	1	0	1	1	-1	-1	25	0	0.005	0.523	0.319	0.114	0.031	0.009
+1999	7	1	0	1	1	-1	-1	25	0	0.018	0.406	0.429	0.105	0.027	0.014
+2000	7	1	0	1	1	-1	-1	25	0	0.022	0.652	0.248	0.075	0.003	0.001
+2001	7	1	0	1	1	-1	-1	25	0	0	0.248	0.624	0.12	0.009	0
+2002	7	1	0	1	1	-1	-1	25	0	0.02	0.413	0.379	0.16	0.026	0.003
+2003	7	1	0	1	1	-1	-1	25	0	0.008	0.289	0.499	0.158	0.028	0.018
+2004	7	1	0	1	1	-1	-1	25	0	0.563	0.304	0.066	0.052	0.014	0.002
+2005	7	1	0	1	1	-1	-1	25	0	0.126	0.332	0.217	0.158	0.119	0.047
+2006	7	1	0	1	1	-1	-1	25	0	0.093	0.476	0.255	0.099	0.035	0.042
+2007	7	1	0	1	1	-1	-1	25	0	0.012	0.316	0.521	0.103	0.025	0.023
+2008	7	1	0	1	1	-1	-1	25	0	0.035	0.073	0.388	0.464	0.036	0.005
+2009	7	1	0	1	1	-1	-1	25	0	0.025	0.263	0.211	0.245	0.24	0.016
+2010	7	1	0	1	1	-1	-1	25	0	0.009	0.182	0.304	0.179	0.25	0.077
+2011	7	1	0	1	1	-1	-1	25	0	0.055	0.131	0.26	0.242	0.17	0.142
+-9999  	0 	0 	0 	0 	0 	0 	0 	0 	0	0 	0 	0 	0 	0 	0  # terminator line age comp
 #
 0 #_Use_MeanSize-at-Age_obs (0/1)
 #
