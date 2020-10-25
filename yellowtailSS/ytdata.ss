@@ -379,7 +379,7 @@
 2011 1 1 145	0.01 #us_comm
 -9999 0 0 0.0 0.0 # terminator for discard data 
 #
-0 #_use meanbodysize_data (0/1)
+1 #_use meanbodysize_data (0/1)
 #_COND_0 #_DF_for_meanbodysize_T-distribution_like
 # note:  type=1 for mean length; type=2 for mean body weight 
 #_yr month fleet part type obs stderr

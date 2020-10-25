@@ -19,14 +19,16 @@
 #GPattern month  area  age (for each settlement assignment)
  1 1 1 0
 #
+#Movement
 #_Cond 0 # N_movement_definitions goes here if Nareas > 1
 #_Cond 1.0 # first age that moves (real age at begin of season, not integer) also cond on do_migration>0
 #_Cond 1 1 1 2 4 10 # example move definition for seas=1, morph=1, source=1 dest=2, age1=4, age2=10
 #
-1 #_Nblock_Patterns
- 1 #_blocks_per_pattern 
+#Block setup
+0 #_Nblock_Patterns
+ 0 #_blocks_per_pattern 
 # begin and end years of blocks
- 1970 1970
+#
 #
 # controls for all timevary parameters 
 1 #_env/block/dev_adjust_method for all time-vary parms (1=warn relative to base parm bounds; 3=no bound check)
