@@ -149,7 +149,7 @@
 #Fishing Mortality info 
 0.3 # F ballpark
 -2001 # F ballpark year (neg value to disable)
-1 # F_Method:  1=Pope; 2=instan. F; 3=hybrid (hybrid is recommended)
+1 # F_Method:  1=Pope; 2=instan.Baranov with Fs as pars; 3=hybrid (hybrid is recommended)
 0.8 # max F or harvest rate, depends on F_Method
 # no additional F input needed for Fmethod 1
 # if Fmethod=2; read overall start F value; overall phase; N detailed inputs to read
