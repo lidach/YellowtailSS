@@ -174,13 +174,16 @@
 #_5:  0/1 for biasadj or not
 #_6:  0/1 to float
 #_   fleet      link link_info  extra_se   biasadj     float  #  fleetname
-         2         1         0         1         0         1  #  SURVEY1
+ 3 1 0 0 0 1 #spri_surv #3 Spring Survey
+ 4 1 0 0 0 1 #fall_surv #4 Fall survey
 -9999 0 0 0 0 0
 #
 #_Q_parms(if_any);Qunits_are_ln(q)
 #_          LO            HI          INIT         PRIOR         PR_SD       PR_type      PHASE    env-var    use_dev   dev_mnyr   dev_mxyr     dev_PH      Block    Blk_Fxn  #  parm_name
-            -7             5      0.970588             0             1             0        -99          0          0          0          0          0          0          0  #  LnQ_base_SURVEY1(2)
-             0           0.5             0          0.05             1             0         -4          0          0          0          0          0          0          0  #  Q_extraSD_SURVEY1(2)
+            -7             5      0.970588             0             1             0        -99          0          0          0          0          0          0          0  #  LnQ_base_spri_surv(2)
+             0           0.5             0          0.05             1             0         -4          0          0          0          0          0          0          0  #  Q_extraSD_spri_surv(2)
+            -7             5      0.970588             0             1             0        -99          0          0          0          0          0          0          0  #  LnQ_base_fall_surv(2)
+             0           0.5             0          0.05             1             0         -4          0          0          0          0          0          0          0  #  Q_extraSD_fall_surv(2)
 #_no timevary Q parameters
 #
 #_size_selex_patterns
@@ -201,8 +204,10 @@
 #Pattern:_42; parm=2+special+3; // like 27, with 2 additional param for scaling (average over bin range)
 #_discard_options:_0=none;_1=define_retention;_2=retention&mortality;_3=all_discarded_dead;_4=define_dome-shaped_retention
 #_Pattern Discard Male Special
- 0 0 0 0 # 1 FISHERY1
- 0 0 0 0 # 2 SURVEY1
+ 1 1 0 0  #us_comm #1 US commercial fleet
+ 1 0 0 0  #foreign #2 foreign fleet
+ 1 0 0 0  #spri_surv #3 Spring Survey
+ 1 0 0 0  #fall_surv #4 Fall survey
 #
 #_age_selex_patterns
 #Pattern:_0; parm=0; selex=1.0 for ages 0 to maxage
@@ -222,8 +227,10 @@
 #Pattern:_27; parm=3+special; cubic spline in age
 #Pattern:_42; parm=2+special+3; // cubic spline; with 2 additional param for scaling (average over bin range)
 #_Pattern Discard Male Special
- 17 0 0 10 # 1 FISHERY1
- 12 0 0 0 # 2 SURVEY1
+ 1 1 0 0  #us_comm #1 US commercial fleet
+ 1 0 0 0  #foreign #2 foreign fleet
+ 1 0 0 0  #spri_surv #3 Spring Survey
+ 1 0 0 0  #fall_surv #4 Fall survey
 #
 #_          LO            HI          INIT         PRIOR         PR_SD       PR_type      PHASE    env-var    use_dev   dev_mnyr   dev_mxyr     dev_PH      Block    Blk_Fxn  #  parm_name
 # 1   FISHERY1 LenSelex
