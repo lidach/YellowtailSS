@@ -5,7 +5,7 @@
 #_user_info_available_at:https://vlab.ncep.noaa.gov/group/stock-synthesis
 #C growth parameters are estimated
 #C spawner-recruitment bias adjustment Not tuned For optimality
-#_data_and_control_files: data.ss // control.ss
+#_data_and_control_files: ytdata.ss // ytcontrol.ss
 0  # 0 means do not read wtatage.ss; 1 means read and use wtatage.ss and also read and use growth parameters
 1  #_N_Growth_Patterns
 1 #_N_platoons_Within_GrowthPattern 
@@ -25,10 +25,10 @@
 #_Cond 1 1 1 2 4 10 # example move definition for seas=1, morph=1, source=1 dest=2, age1=4, age2=10
 #
 #Block setup
-0 #_Nblock_Patterns
- 0 #_blocks_per_pattern 
+1 #_Nblock_Patterns
+ 1 #_blocks_per_pattern 
 # begin and end years of blocks
-#
+1935 2011
 #
 # controls for all timevary parameters 
 1 #_env/block/dev_adjust_method for all time-vary parms (1=warn relative to base parm bounds; 3=no bound check)
@@ -124,18 +124,18 @@
             -5             5            0             0             1             0         -4          0          0          0          0          0          0          0 # SR_regime
              0             0            0             0             0             0         -99         0          0          0          0          0          0          0 # SR_autocorr
 1 #do_recdev:  0=none; 1=devvector (R=F(SSB)+dev); 2=deviations (R=F(SSB)+dev); 3=deviations (R=R0*dev; dev2=R-f(SSB)); 4=like 3 with sum(dev2) adding penalty
-1971 # first year of main recr_devs; early devs can preceed this era
-2001 # last year of main recr_devs; forecast devs start in following year
+1973 # first year of main recr_devs; early devs can preceed this era
+2011 # last year of main recr_devs; forecast devs start in following year
 2 #_recdev phase 
 1 # (0/1) to read 13 advanced options
  0 #_recdev_early_start (0=none; neg value makes relative to recdev_start)
  -4 #_recdev_early_phase
  0 #_forecast_recruitment phase (incl. late recr) (0 value resets to maxphase+1)
  1 #_lambda for Fcast_recr_like occurring before endyr+1
- 1971 #_last_yr_nobias_adj_in_MPD; begin of ramp
- 1971 #_first_yr_fullbias_adj_in_MPD; begin of plateau
- 2000 #_last_yr_fullbias_adj_in_MPD
- 2001 #_end_yr_for_ramp_in_MPD (can be in forecast to shape ramp, but SS sets bias_adj to 0.0 for fcast yrs)
+ 1940 #_last_yr_nobias_adj_in_MPD; begin of ramp
+ 1972 #_first_yr_fullbias_adj_in_MPD; begin of plateau
+ 2010 #_last_yr_fullbias_adj_in_MPD
+ 2011 #_end_yr_for_ramp_in_MPD (can be in forecast to shape ramp, but SS sets bias_adj to 0.0 for fcast yrs)
  0.95 #_max_bias_adj_in_MPD (-1 to override ramp and set biasadj=1.0 for all estimated recdevs)
  0 #_period of cycles in recruitment (N parms read below)
  -5 #min rec_dev
@@ -151,8 +151,8 @@
 #Fishing Mortality info 
 0.3 # F ballpark
 -2001 # F ballpark year (neg value to disable)
-1 # F_Method:  1=Pope; 2=instan.Baranov with Fs as pars; 3=hybrid (hybrid is recommended)
-0.8 # max F or harvest rate, depends on F_Method
+3 # F_Method:  1=Pope; 2=instan.Baranov with Fs as pars; 3=hybrid (hybrid is recommended)
+4 # max F or harvest rate, depends on F_Method
 # no additional F input needed for Fmethod 1
 # if Fmethod=2; read overall start F value; overall phase; N detailed inputs to read
 # if Fmethod=3; read N iterations for tuning for Fmethod 3
@@ -180,10 +180,8 @@
 #
 #_Q_parms(if_any);Qunits_are_ln(q)
 #_          LO            HI          INIT         PRIOR         PR_SD       PR_type      PHASE    env-var    use_dev   dev_mnyr   dev_mxyr     dev_PH      Block    Blk_Fxn  #  parm_name
-            -7             5      0.970588             0             1             0        -99          0          0          0          0          0          0          0  #  LnQ_base_spri_surv(2)
-             0           0.5             0          0.05             1             0         -4          0          0          0          0          0          0          0  #  Q_extraSD_spri_surv(2)
-            -7             5      0.970588             0             1             0        -99          0          0          0          0          0          0          0  #  LnQ_base_fall_surv(2)
-             0           0.5             0          0.05             1             0         -4          0          0          0          0          0          0          0  #  Q_extraSD_fall_surv(2)
+            -25           25      	-7             0             1             0        -99          0          0          0          0          0          0          0  #  LnQ_base_fleet3
+            -25           25      	-7             0             1             0        -99          0          0          0          0          0          0          0  #  LnQ_base_fleet4
 #_no timevary Q parameters
 #
 #_size_selex_patterns
@@ -204,10 +202,10 @@
 #Pattern:_42; parm=2+special+3; // like 27, with 2 additional param for scaling (average over bin range)
 #_discard_options:_0=none;_1=define_retention;_2=retention&mortality;_3=all_discarded_dead;_4=define_dome-shaped_retention
 #_Pattern Discard Male Special
- 1 1 0 0  #us_comm #1 US commercial fleet
- 1 0 0 0  #foreign #2 foreign fleet
- 1 0 0 0  #spri_surv #3 Spring Survey
- 1 0 0 0  #fall_surv #4 Fall survey
+ 0 2 0 0  #us_comm #1 US commercial fleet
+ 0 0 0 0  #foreign #2 foreign fleet
+ 0 0 0 0  #spri_surv #3 Spring Survey
+ 0 0 0 0  #fall_surv #4 Fall survey
 #
 #_age_selex_patterns
 #Pattern:_0; parm=0; selex=1.0 for ages 0 to maxage
@@ -227,33 +225,32 @@
 #Pattern:_27; parm=3+special; cubic spline in age
 #Pattern:_42; parm=2+special+3; // cubic spline; with 2 additional param for scaling (average over bin range)
 #_Pattern Discard Male Special
- 1 1 0 0  #us_comm #1 US commercial fleet
- 1 0 0 0  #foreign #2 foreign fleet
- 1 0 0 0  #spri_surv #3 Spring Survey
- 1 0 0 0  #fall_surv #4 Fall survey
-#
-#_          LO            HI          INIT         PRIOR         PR_SD       PR_type      PHASE    env-var    use_dev   dev_mnyr   dev_mxyr     dev_PH      Block    Blk_Fxn  #  parm_name
-# 1   FISHERY1 LenSelex
-# 2   SURVEY1 LenSelex
-# 3   SURVEY2 LenSelex
-# 1   FISHERY1 AgeSelex
-         -1000            10             0         -1000             3             0         -2          0          0          0          0          0          0          0  #  AgeSel_P1_FISHERY1(1)
-           -10            10           0.0             0             3             0          2          0          0       1948       2011          4          0          0  #  AgeSel_P2_FISHERY1(1)
-           -10            10           0.0             0             3             6          2          0          0       1948       2011          4          0          0  #  AgeSel_P3_FISHERY1(1)
-           -10            10           4.0             0             3             6          2          0          0       1948       2011          4          0          0  #  AgeSel_P4_FISHERY1(1)
-           -10            10           0.4             0             3             6          2          0          0       1948       2011          4          0          0  #  AgeSel_P5_FISHERY1(1)
-           -10            10           0.3             0             3             6          2          0          0       1948       2011          4          0          0  #  AgeSel_P6_FISHERY1(1)
-           -10            10           0.2             0             3             6          2          0          0       1948       2011          4          0          0  #  AgeSel_P7_FISHERY1(1)
-           -10            10           0.1             0             3             6          2          0          0       1948       2011          4          0          0  #  AgeSel_P8_FISHERY1(1)
-           -10            10           0.1             0             3             6          2          0          0       1948       2011          4          0          0  #  AgeSel_P9_FISHERY1(1)
-           -10            10           0.1             0             3             6          2          0          0       1948       2011          4          0          0  #  AgeSel_P10_FISHERY1(1)
-           -10            10           0.0             0             3             0         -5          0          0          0          0       0.25          0          0  #  AgeSel_P11_FISHERY1(1)
-# 2   SURVEY1 AgeSelex
-#LO  Hi    Init  Prior  Pr_sd  Pr_type  Phase  env-var  use_dev  dev_mnyr  dev_mxyr  dev_ph  Block  Blk_fxn 
-1    20    4     4      0.0    0        2      0        0        1972      2021      4       0      0       #logistic p1 (a50)
-0    20    2     2      0.0    0        2      0        0        1972      2021      4       0      0       #logistic p2 (a95)
-# -10  10    0     0      0.0    0        2      0        0        1971      2021      4       0      0       #logistic p1 male offset
-# -10  10    0     0      0.0    0        3      0        0        1972      2021      4       0      0       #logistic p2 male offset
+ 12 0 0 0  #us_comm #1 US commercial fleet
+ 12 0 0 0  #foreign #2 foreign fleet
+ 12 0 0 0  #spri_surv #3 Spring Survey
+ 12 0 0 0  #fall_surv #4 Fall survey
+
+
+#_          LO            HI          INIT         PRIOR         PR_SD       PR_type      PHASE    env-var    use_dev   dev_mnyr   dev_mxyr     dev_PH      Block    Blk_Fxn  	#  parm_name
+            10           100         30	           30                1             0          3          0          0          0          0          0          0          0   	#  Retain_L_infl_us_comm(1)
+            -1            20             1             1             1             0         -3          0          0          0          0          0          0          0  	#  Retain_L_width_us_comm(1)
+           -10            1000         999            10             1             0         -2          0          0          0          0          0          0          0  	#  Retain_L_asymptote_logit_us_comm(1)
+            -1             2             0             0             1             0         -4          0          0          0          0          0          0          0  	#  Retain_L_maleoffset_us_comm(1)
+           -10            10            -5            -5             1             0         -2          0          0          0          0          0          0          0  	#  DiscMort_L_infl_us_comm(1)
+            -1             2             1             1             1             0         -4          0          0          0          0          0          0          0  	#  DiscMort_L_width_us_comm(1)
+            -1             2          0.95          0.95             1             0         -2          0          0          0          0          0          0          0  	#  DiscMort_L_level_us_comm(1)	assumed 95% disc mort for now
+            -1             2             0             0             1             0         -4          0          0          0          0          0          0          0  	#  DiscMort_L_male_offset_com_domestic(1)
+#  -------- age selex
+#_          LO            HI          INIT         PRIOR         PR_SD       PR_type      PHASE    env-var    use_dev   dev_mnyr   dev_mxyr     dev_PH      Block    Blk_Fxn  	#  parm_name
+             0            10           1.5         0             0             0          2          0          0          0          0          0          0          0  	#  AgeSel_P1_us_comm
+             0            10           0.05        0             0             0          3          0          0          0          0          0          0          0  	#  AgeSel_P2_us_comm
+             0            10           1.5         0             0             0          2          0          0          0          0          0          0          0  	#  AgeSel_P1_foreing
+             0            10           0.05        0             0             0          3          0          0          0          0          0          0          0  	#  AgeSel_P2_foreing
+             0            10           1.5         0             0             0          2          0          0          0          0          0          0          0  	#  AgeSel_P1_spri_surv
+	           0            10           0.05        0             0             0          3          0          0          0          0          0          0          0  	#  AgeSel_P2_spri_surv
+	           0            10           1.5         0             0             0          2          0          0          0          0          0          0          0  	#  AgeSel_P1_fall_surv
+             0            10           0.05        0             0             0          3          0          0          0          0          0          0          0  	#  AgeSel_P2_fall_surv
+
 
 #_no timevary selex parameters
 #
@@ -277,16 +274,15 @@
  #_7=mult_by_generalized_sizecomp
 #_Factor  Fleet  Value
  -9999   1    0  # terminator
-#
 4 #_maxlambdaphase
-1 #_sd_offset; must be 1 if any growthCV, sigmaR, or survey extraSD is an estimated parameter
+0 #_sd_offset; must be 1 if any growthCV, sigmaR, or survey extraSD is an estimated parameter
 # read 3 changes to default Lambdas (default value is 1.0)
 # Like_comp codes:  1=surv; 2=disc; 3=mnwt; 4=length; 5=age; 6=SizeFreq; 7=sizeage; 8=catch; 9=init_equ_catch; 
 # 10=recrdev; 11=parm_prior; 12=parm_dev; 13=CrashPen; 14=Morphcomp; 15=Tag-comp; 16=Tag-negbin; 17=F_ballpark; 18=initEQregime
-#like_comp fleet  phase  value  sizefreq_method
- 1 2 2 1 1
- 4 2 2 1 1
- 4 2 3 1 1
+#like_comp 	fleet  	phase  	value	sizefreq_method
+# 1 2 2 1 1
+# 4 2 2 1 1
+# 4 2 3 1 1
 -9999  1  1  1  1  #  terminator
 #
 # lambdas (for info only; columns are phases)
@@ -302,9 +298,8 @@
 #  1 1 1 1 #_parameter-dev-vectors
 #  1 1 1 1 #_crashPenLambda
 #  0 0 0 0 # F_ballpark_lambda
-1 # (0/1) read specs for more stddev reporting 
- 1 2 -1 5 0 0 1 -1 5 # selex_fleet, 1=len/2=age/3=both, year, N selex bins, 0 or Growth pattern, N growth ages, 0 or NatAge_area(-1 for sum), NatAge_yr, N Natages
- 1 3 5 7 8 # vector with selex std bins (-1 in first bin to self-generate)
- 1 2 14 26 40 # vector with NatAge std ages (-1 in first bin to self-generate)
+0 # (0/1) read specs for more stddev reporting 
+# 1 2 -1 5 0 0 1 -1 5 # selex_fleet, 1=len/2=age/3=both, year, N selex bins, 0 or Growth pattern, N growth ages, 0 or NatAge_area(-1 for sum), NatAge_yr, N Natages
+# 1 3 5 7 8 # vector with selex std bins (-1 in first bin to self-generate)
+# 1 2 14 26 40 # vector with NatAge std ages (-1 in first bin to self-generate)
 999
-
