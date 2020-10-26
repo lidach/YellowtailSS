@@ -195,8 +195,10 @@
 #_Errtype:  -1=normal; 0=lognormal; >0=T
 #_SD_Report: 0=no sdreport; 1=enable sdreport
 #_Fleet Units Errtype SD_Report
-1 0 0 0 #spri_surv #3 Spring Survey
-2 0 0 0 #fall_surv #4 Fall survey
+1 0 0 0 #us_comm #1 US commercial
+2 0 0 0 #foreign #2 foreign fleet
+3 1 0 0 #spri_surv #3 Spring Survey
+4 1 0 0 #fall_surv #4 Fall survey
 #_yr month fleet obs stderr
 1968 3 3 102.7	0.159
 1969 3 3 81.8	0.129
@@ -412,7 +414,7 @@
 0	1.00E-07	0	0	0	0	0.01	# fall_surv 4
 1 #_Lbin_method_for_Age_Data: 1=poplenbins; 2=datalenbins; 3=lengths
 # sex codes:  0=combined; 1=use female only; 2=use male only; 3=use both as joint sexxlength distribution
-# partition codes:  (0=combined; 1=discard; 2=retained
+# partition codes:  (0=combined; 1=discard; 2=retained)
 #_yr month fleet sex part ageerr Lbin_lo Lbin_hi Nsamp datavector(female-male)
 1973	3	3	0	0	1	-1	-1	70	0	0.546	3.305	9.031	5.076	3.938	5.625
 1974	3	3	0	0	1	-1	-1	34	0	0.354	1.501	1.769	3.411	2.08	1.847
