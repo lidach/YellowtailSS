@@ -339,8 +339,8 @@
 # set up population length bin structure (note - irrelevant if not using size data and using empirical wtatage
 2 # length bin method: 1=use databins; 2=generate from binwidth,min,max below; 3=read vector
 2 # binwidth for population size comp 
-16 # minimum size in the population (lower edge of first bin and size at age 0.00) 
-34 # maximum size in the population (lower edge of last bin) 
+4 # minimum size in the population (lower edge of first bin and size at age 0.00) 
+40 # maximum size in the population (lower edge of last bin) 
 0 # use length composition data (0/1)
 #
 #  ------------------------------------------------  AGE COMPS

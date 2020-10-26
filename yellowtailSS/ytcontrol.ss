@@ -182,7 +182,7 @@
 #_discard_options:_0=none;_1=define_retention;_2=retention&mortality;_3=all_discarded_dead;_4=define_dome-shaped_retention
 #
 #_Pattern 	Discard 	Male 	Special
- 	0 	3 		0 	0 		# 1 com_domestic
+ 	0 	2 		0 	0 		# 1 com_domestic
  	0 	0 		0 	0 		# 2 com_foreign
  	0 	0 		0 	0 		# 3 spring_trawl
  	0 	0 		0 	0 		# 4 fall_trawl
@@ -212,7 +212,17 @@
  12 		0 		0 	0 		# 3 spring_trawl
  12 		0 		0 	0 		# 4 fall_trawl
 #  ---------------------------------------------------------------------------------  SELECTIVITY PARAMETERS
-#
+# ------------ length-based retention and discard mortality for fleet 1
+#_          LO            HI          INIT         PRIOR         PR_SD       PR_type      PHASE    env-var    use_dev   dev_mnyr   dev_mxyr     dev_PH      Block    Blk_Fxn  	#  parm_name
+            10           100         30	           30                1             0          3          0          0          0          0          0          0          0   	#  Retain_L_infl_com_domestic(1)
+            -1            20             1             1             1             0         -3          0          0          0          0          0          0          0  	#  Retain_L_width_com_domestic(1)
+           -10            1000         999            10             1             0         -2          0          0          0          0          0          0          0  	#  Retain_L_asymptote_logit_com_domestic(1)
+            -1             2             0             0             1             0         -4          0          0          0          0          0          0          0  	#  Retain_L_maleoffset_com_domestic(1)
+           -10            10            -5            -5             1             0         -2          0          0          0          0          0          0          0  	#  DiscMort_L_infl_com_domestic(1)
+            -1             2             1             1             1             0         -4          0          0          0          0          0          0          0  	#  DiscMort_L_width_com_domestic(1)
+            -1             2          0.95          0.95             1             0         -2          0          0          0          0          0          0          0  	#  DiscMort_L_level_com_domestic(1)	assumed 95% disc mort for now
+            -1             2             0             0             1             0         -4          0          0          0          0          0          0          0  	#  DiscMort_L_male_offset_com_domestic(1)
+#  -------- age selex
 #_          LO            HI          INIT         PRIOR         PR_SD       PR_type      PHASE    env-var    use_dev   dev_mnyr   dev_mxyr     dev_PH      Block    Blk_Fxn  	#  parm_name
              0            10           1.5         0             0             0          2          0          0          0          0          0          0          0  	#  AgeSel_P1_COM_DOMESTIC
              0            10           0.05        0             0             0          3          0          0          0          0          0          0          0  	#  AgeSel_P2_COM_DOMESTIC
