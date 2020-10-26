@@ -141,7 +141,7 @@
 #_Errtype:  -1=normal; 0=lognormal; >0=T
 #_SD_Report: 0=no sdreport; 1=enable sdreport
 #_Fleet 	Units 	Errtype 	SD_Report
-1 		0 	0 		0 		# com_usa
+1 		0 	0 		0 		# com_usa	no CPUE by must have parm line here
 2 		0 	0 		0 		# com_foreign
 3 		1 	0 		0 		# spring_trawl
 4 		1 	0 		0 		# fall_trawl
@@ -248,7 +248,7 @@
 # note, only have units and errtype for fleets with discard 
 #_Fleet units errtype
 1	1	-2
-#_yr	month	fleet	obs	se
+#_yr	season	fleet	obs	se
 1935	1	1	2400	0.01
 1936	1	1	2700	0.01
 1937	1	1	3000	0.01
@@ -363,7 +363,7 @@
 0 		1e-07 	0 	0 		0 	0 		1 		# fleet 4
 1 #_Lbin_method_for_Age_Data: 1=poplenbins; 2=datalenbins; 3=lengths
 # sex codes:  0=combined; 1=use female only; 2=use male only; 3=use both as joint sexxlength distribution
-# partition codes:  (0=combined; 1=discard; 2=retained
+# partition codes:  (0=combined; 1=discard; 2=retained)
 #_Year	Month	Fleet	Sex	Part	A_err	L_low	L_high	Nsamp	a0	a1	a2	a3	a4	a5	a6
 1973	3	3	0	0	1	-1	-1	70	0	0.02	0.12	0.328	0.184	0.143	0.204
 1974	3	3	0	0	1	-1	-1	34	0	0.032	0.137	0.161	0.311	0.19	0.168
@@ -443,7 +443,7 @@
 2009	10	4	0	0	1	-1	-1	15	0	0.223	0.374	0.224	0.167	0.012	0
 2010	10	4	0	0	1	-1	-1	16	0	0.024	0.468	0.257	0.185	0.066	0
 2011	10	4	0	0	1	-1	-1	14	0	0.13	0.172	0.379	0.196	0.109	0.014
-1973	7	1	0	2	1	-1	-1	50	0	0.001	0.081	0.324	0.242	0.16	0.192
+1973	7	1	0	2	1	-1	-1	50	0	0.001	0.081	0.324	0.242	0.16	0.192	# I don't think the month does anything here
 1974	7	1	0	2	1	-1	-1	50	0	0.006	0.088	0.226	0.347	0.175	0.159
 1975	7	1	0	2	1	-1	-1	50	0	0.02	0.302	0.211	0.126	0.179	0.163
 1976	7	1	0	2	1	-1	-1	50	0	0	0.342	0.271	0.076	0.104	0.208
