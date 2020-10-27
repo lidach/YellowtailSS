@@ -18,10 +18,10 @@
 #_catch_mult: 0=no; 1=yes
 #_rows are fleets
 #_fleet_type fishery_timing area catch_units need_catch_mult fleetname
- 1 -1 1 1 0 us_comm #1 US commercial fleet
- 1 -1 1 1 0 foreign #2 foreign fleet
- 3 1 1 2 0 spri_surv #3 Spring Survey
- 3 1 1 2 0 fall_surv #4 Fall survey
+ 1 -1 1 1 0 us_comm   # 1 US commercial fleet
+ 1 -1 1 1 0 foreign   # 2 foreign fleet
+ 3  1 1 2 0 spri_surv # 3 Spring Survey
+ 3  1 1 2 0 fall_surv # 4 Fall survey
 #Bycatch_fleet_input_goes_next
 #a:  fleet index
 #b:  1=include dead bycatch in total dead catch for F0.1 and MSY optimizations and forecast ABC; 2=omit from total catch for these purposes (but still include the mortality)
@@ -302,83 +302,83 @@
 #_Fleet units errtype
 1 1 -1 #us_comm 1 US commercial fleet
 #_year month fleet obs err #comment
-1935 1 1 2400	0.01 #us_comm
-1936 1 1 2700	0.01 #us_comm
-1937 1 1 3000	0.01 #us_comm
-1938 1 1 3100	0.01 #us_comm
-1939 1 1 3800	0.01 #us_comm
-1940 1 1 5700	0.01 #us_comm
-1941 1 1 7700	0.01 #us_comm
-1942 1 1 9900	0.01 #us_comm
-1943 1 1 7300	0.01 #us_comm
-1944 1 1 4800	0.01 #us_comm
-1945 1 1 4200	0.01 #us_comm
-1946 1 1 4400	0.01 #us_comm
-1947 1 1 4900	0.01 #us_comm
-1948 1 1 4000	0.01 #us_comm
-1949 1 1 1900	0.01 #us_comm
-1950 1 1 1900	0.01 #us_comm
-1951 1 1 1100	0.01 #us_comm
-1952 1 1 1200	0.01 #us_comm
-1953 1 1 800	0.01 #us_comm
-1954 1 1 600	0.01 #us_comm
-1955 1 1 900	0.01 #us_comm
-1956 1 1 1400	0.01 #us_comm
-1957 1 1 2200	0.01 #us_comm
-1958 1 1 3600	0.01 #us_comm
-1959 1 1 3100	0.01 #us_comm
-1960 1 1 3200	0.01 #us_comm
-1961 1 1 4700	0.01 #us_comm
-1962 1 1 5300	0.01 #us_comm
-1963 1 1 5400	0.01 #us_comm
-1964 1 1 9500	0.01 #us_comm
-1965 1 1 7000	0.01 #us_comm
-1966 1 1 5300	0.01 #us_comm
-1967 1 1 7700	0.01 #us_comm
-1968 1 1 6300	0.01 #us_comm
-1969 1 1 2400	0.01 #us_comm
-1970 1 1 4500	0.01 #us_comm
-1971 1 1 2200	0.01 #us_comm
-1972 1 1 1800	0.01 #us_comm
-1973 1 1 1711	0.01 #us_comm
-1974 1 1 8688	0.01 #us_comm
-1975 1 1 1896	0.01 #us_comm
-1976 1 1 1583	0.01 #us_comm
-1977 1 1 1888	0.01 #us_comm
-1978 1 1 5026	0.01 #us_comm
-1979 1 1 4431	0.01 #us_comm
-1980 1 1 1721	0.01 #us_comm
-1981 1 1 1207	0.01 #us_comm
-1982 1 1 5038	0.01 #us_comm
-1983 1 1 3711	0.01 #us_comm
-1984 1 1 1125	0.01 #us_comm
-1985 1 1 1217	0.01 #us_comm
-1986 1 1 1072	0.01 #us_comm
-1987 1 1 881	0.01 #us_comm
-1988 1 1 1788	0.01 #us_comm
-1989 1 1 5452	0.01 #us_comm
-1990 1 1 9680	0.01 #us_comm
-1991 1 1 2317	0.01 #us_comm
-1992 1 1 1055	0.01 #us_comm
-1993 1 1 97	0.01 #us_comm
-1994 1 1 367	0.01 #us_comm
-1995 1 1 142	0.01 #us_comm
-1996 1 1 282	0.01 #us_comm
-1997 1 1 373	0.01 #us_comm
-1998 1 1 396	0.01 #us_comm
-1999 1 1 96	0.01 #us_comm
-2000 1 1 275	0.01 #us_comm
-2001 1 1 154	0.01 #us_comm
-2002 1 1 153	0.01 #us_comm
-2003 1 1 169	0.01 #us_comm
-2004 1 1 130	0.01 #us_comm
-2005 1 1 104	0.01 #us_comm
-2006 1 1 187	0.01 #us_comm
-2007 1 1 296	0.01 #us_comm
-2008 1 1 391	0.01 #us_comm
-2009 1 1 268	0.01 #us_comm
-2010 1 1 177	0.01 #us_comm
-2011 1 1 145	0.01 #us_comm
+1935 1 1 2400	0.01 # us_comm
+1936 1 1 2700	0.01 # us_comm
+1937 1 1 3000	0.01 # us_comm
+1938 1 1 3100	0.01 # us_comm
+1939 1 1 3800	0.01 # us_comm
+1940 1 1 5700	0.01 # us_comm
+1941 1 1 7700	0.01 # us_comm
+1942 1 1 9900	0.01 # us_comm
+1943 1 1 7300	0.01 # us_comm
+1944 1 1 4800	0.01 # us_comm
+1945 1 1 4200	0.01 # us_comm
+1946 1 1 4400	0.01 # us_comm
+1947 1 1 4900	0.01 # us_comm
+1948 1 1 4000	0.01 # us_comm
+1949 1 1 1900	0.01 # us_comm
+1950 1 1 1900	0.01 # us_comm
+1951 1 1 1100	0.01 # us_comm
+1952 1 1 1200	0.01 # us_comm
+1953 1 1 800	0.01 # us_comm
+1954 1 1 600	0.01 # us_comm
+1955 1 1 900	0.01 # us_comm
+1956 1 1 1400	0.01 # us_comm
+1957 1 1 2200	0.01 # us_comm
+1958 1 1 3600	0.01 # us_comm
+1959 1 1 3100	0.01 # us_comm
+1960 1 1 3200	0.01 # us_comm
+1961 1 1 4700	0.01 # us_comm
+1962 1 1 5300	0.01 # us_comm
+1963 1 1 5400	0.01 # us_comm
+1964 1 1 9500	0.01 # us_comm
+1965 1 1 7000	0.01 # us_comm
+1966 1 1 5300	0.01 # us_comm
+1967 1 1 7700	0.01 # us_comm
+1968 1 1 6300	0.01 # us_comm
+1969 1 1 2400	0.01 # us_comm
+1970 1 1 4500	0.01 # us_comm
+1971 1 1 2200	0.01 # us_comm
+1972 1 1 1800	0.01 # us_comm
+1973 1 1 1711	0.01 # us_comm
+1974 1 1 8688	0.01 # us_comm
+1975 1 1 1896	0.01 # us_comm
+1976 1 1 1583	0.01 # us_comm
+1977 1 1 1888	0.01 # us_comm
+1978 1 1 5026	0.01 # us_comm
+1979 1 1 4431	0.01 # us_comm
+1980 1 1 1721	0.01 # us_comm
+1981 1 1 1207	0.01 # us_comm
+1982 1 1 5038	0.01 # us_comm
+1983 1 1 3711	0.01 # us_comm
+1984 1 1 1125	0.01 # us_comm
+1985 1 1 1217	0.01 # us_comm
+1986 1 1 1072	0.01 # us_comm
+1987 1 1 881	0.01 # us_comm
+1988 1 1 1788	0.01 # us_comm
+1989 1 1 5452	0.01 # us_comm
+1990 1 1 9680	0.01 # us_comm
+1991 1 1 2317	0.01 # us_comm
+1992 1 1 1055	0.01 # us_comm
+1993 1 1 97	0.01 # us_comm
+1994 1 1 367	0.01 # us_comm
+1995 1 1 142	0.01 # us_comm
+1996 1 1 282	0.01 # us_comm
+1997 1 1 373	0.01 # us_comm
+1998 1 1 396	0.01 # us_comm
+1999 1 1 96	0.01 # us_comm
+2000 1 1 275	0.01 # us_comm
+2001 1 1 154	0.01 # us_comm
+2002 1 1 153	0.01 # us_comm
+2003 1 1 169	0.01 # us_comm
+2004 1 1 130	0.01 # us_comm
+2005 1 1 104	0.01 # us_comm
+2006 1 1 187	0.01 # us_comm
+2007 1 1 296	0.01 # us_comm
+2008 1 1 391	0.01 # us_comm
+2009 1 1 268	0.01 # us_comm
+2010 1 1 177	0.01 # us_comm
+2011 1 1 145	0.01 # us_comm
 -9999 0 0 0 0 # terminator for discard data 
 #
 0 #_use meanbodysize_data (0/1)
