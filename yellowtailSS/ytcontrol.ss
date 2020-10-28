@@ -1,8 +1,5 @@
 #V3.30.13-safe;_2019_03_09;_Stock_Synthesis_by_Richard_Methot_(NOAA)_using_ADMB_12.0
 #Stock Synthesis (SS) is a work of the U.S. Government and is not subject to copyright protection in the United States.
-#Foreign copyrights may apply. See copyright.txt for more information.
-#_user_support_available_at:NMFS.Stock.Synthesis@noaa.gov
-#_user_info_available_at:https://vlab.ncep.noaa.gov/group/stock-synthesis
 #C growth parameters are estimated
 #C spawner-recruitment bias adjustment Not tuned For optimality
 #_data_and_control_files: data.ss // control.ss
@@ -17,7 +14,7 @@
 1 #  number of recruitment settlement assignments 
 0 # unused option
 #GPattern month  area  age (for each settlement assignment)
- 1 1 1 0
+ 1         1     1     0
 #
 #_Cond 0 # N_movement_definitions goes here if Nareas > 1
 #_Cond 1.0 # first age that moves (real age at begin of season, not integer) also cond on do_migration>0
@@ -26,7 +23,7 @@
 1 #_Nblock_Patterns
  1 #_blocks_per_pattern 
 # begin and end years of blocks
- 1970 1970
+ 1935 2011
 #
 # controls for all timevary parameters 
 1 #_env/block/dev_adjust_method for all time-vary parms (1=warn relative to base parm bounds; 3=no bound check)
@@ -45,9 +42,9 @@
 #
 # setup for M, growth, maturity, fecundity, recruitment distibution, movement 
 #
-0 #_natM_type:_0=1Parm; 1=N_breakpoints;_2=Lorenzen;_3=agespecific;_4=agespec_withseasinterpolate
-  #_no additional input for selected M option; read 1P per morph
-#
+3 #_natM_type:_0=1Parm; 1=N_breakpoints;_2=Lorenzen;_3=agespecific;_4=agespec_withseasinterpolate
+# a0     a1     a2     a3     a4     a5     a6
+ 0.414  0.338 	0.294  0.272  0.254  0.228  0.228
 1 # GrowthModel: 1=vonBert with L1&L2; 2=Richards with L1&L2; 3=age_specific_K_incr; 4=age_specific_K_decr; 5=age_specific_K_each; 6=NA; 7=NA; 8=growth cessation
 0 #_Age(post-settlement)_for_L1;linear growth below this
 999 #_Growth_Age_for_L2 (999 to use as Linf)
@@ -64,52 +61,44 @@
 1 #_parameter_offset_approach (1=none, 2= M, G, CV_G as offset from female-GP1, 3=like SS2 V1.x)
 #
 #_growth_parms
-#_ LO HI INIT PRIOR PR_SD PR_type PHASE env_var&link dev_link dev_minyr dev_maxyr dev_PH Block Block_Fxn
-# Sex: 1  BioPattern: 1  NatMort
- 0.05 0.15 0.12 0.1 0.8 0 -3 0 0 0 0 0 0 0 # NatM_p_1_Fem_GP_1
-# Sex: 1  BioPattern: 1  Growth
- -10 45 21.6552 36 10 6 -2 0 0 0 0 0 0 0 # L_at_Amin_Fem_GP_1
- 40 90 71.6492 70 10 6 -4 0 0 0 0 0 0 0 # L_at_Amax_Fem_GP_1
- 0.05 0.25 0.147282 0.15 0.8 6 -4 0 0 0 0 0 0 0 # VonBert_K_Fem_GP_1
- 0.05 0.25 0.1 0.1 0.8 0 -3 0 0 0 0 0 0 0 # CV_young_Fem_GP_1
- 0.05 0.25 0.1 0.1 0.8 0 -3 0 0 0 0 0 0 0 # CV_old_Fem_GP_1
-# Sex: 1  BioPattern: 1  WtLen
- -3 3 2.44e-06 2.44e-06 0.8 0 -3 0 0 0 0 0 0 0 # Wtlen_1_Fem_GP_1
- -3 4 3.34694 3.34694 0.8 0 -3 0 0 0 0 0 0 0 # Wtlen_2_Fem_GP_1
-# Sex: 1  BioPattern: 1  Maturity&Fecundity
- 50 60 55 55 0.8 0 -3 0 0 0 0 0 0 0 # Mat50%_Fem_GP_1
- -3 3 -0.25 -0.25 0.8 0 -3 0 0 0 0 0 0 0 # Mat_slope_Fem_GP_1
- -3 3 1 1 0.8 0 -3 0 0 0 0 0 0 0 # Eggs/kg_inter_Fem_GP_1
- -3 3 0 0 0.8 0 -3 0 0 0 0 0 0 0 # Eggs/kg_slope_wt_Fem_GP_1
-# Sex: 2  BioPattern: 1  NatMort
- 0.05 0.15 0.14 0.1 0.8 0 -3 0 0 0 0 0 0 0 # NatM_p_1_Mal_GP_1
-# Sex: 2  BioPattern: 1  Growth
- 1 45 0 36 10 0 -3 0 0 0 0 0 0 0 # L_at_Amin_Mal_GP_1
- 40 90 69.5361 70 10 6 -4 0 0 0 0 0 0 0 # L_at_Amax_Mal_GP_1
- 0.05 0.25 0.163516 0.15 0.8 6 -4 0 0 0 0 0 0 0 # VonBert_K_Mal_GP_1
- 0.05 0.25 0.1 0.1 0.8 0 -3 0 0 0 0 0 0 0 # CV_young_Mal_GP_1
- 0.05 0.25 0.1 0.1 0.8 0 -3 0 0 0 0 0 0 0 # CV_old_Mal_GP_1
-# Sex: 2  BioPattern: 1  WtLen
- -3 3 2.44e-06 2.44e-06 0.8 0 -3 0 0 0 0 0 0 0 # Wtlen_1_Mal_GP_1
- -3 4 3.34694 3.34694 0.8 0 -3 0 0 0 0 0 0 0 # Wtlen_2_Mal_GP_1
+#_ LO      HI      INIT      PRIOR    PR_SD   PR_type  PHASE   env_var&link dev_link dev_minyr dev_maxyr dev_PH Block Block_Fxn
+# Growth
+#  1       40      20       20       10        6        -2       0 0 0 0 0 0 0 # L_at_Amin_Fem_GP_1 # for length comps
+#  20      50      35.6     45.338   10        6        -4       0 0 0 0 0 0 0 # L_at_Amax_Fem_GP_1 # for length comps, FishLife
+#  0.05    1.5     0.97     0.268    0.8       6        -4       0 0 0 0 0 0 0 # VonBert_K_Fem_GP_1 # for length comps, FishLife
+   1       40      20       36       0         0        -2       0 0 0 0 0 0 0 # L_at_Amin_Fem_GP_1
+   20      50      35.6     35.6     0         0        -4       0 0 0 0 0 0 0 # L_at_Amax_Fem_GP_1
+   0.05    1.5     0.97     0.97     0         0        -4       0 0 0 0 0 0 0 # VonBert_K_Fem_GP_1
+   0.05    0.25    0.1      0.1      0         0        -3       0 0 0 0 0 0 0 # CV_young_Fem_GP_1 
+   0.05    0.25    0.1      0.1      0         0        -3       0 0 0 0 0 0 0 # CV_old_Fem_GP_1 
+# WtLen
+   -3      3    4.0023e-06 4.0023e-06  0       0        -3       0 0 0 0 0 0 0 # Wtlen_1_Fem_GP_1
+   -3      4      3.23      3.23     0         0        -3       0 0 0 0 0 0 0 # Wtlen_2_Fem_GP_1
+# Maturity & Fecundity
+    20     40      27.4     27.4     0         0        -3       0 0 0 0 0 0 0 # Mat50%_Fem_GP_1
+   -3      3       -0.25    -0.25    0         0        -3       0 0 0 0 0 0 0 # Mat_slope_Fem_GP_1
+   -3      3       1        1        0         0        -3       0 0 0 0 0 0 0 # Eggs/kg_inter_Fem_GP_1
+   -3      3       0        0        0         0        -3       0 0 0 0 0 0 0 # Eggs/kg_slope_wt_Fem_GP_1
 # Hermaphroditism
-#  Recruitment Distribution  
- # 0 0 0 0 0 0 -4 0 0 0 0 0 0 0 # RecrDist_GP_1
- # 0 0 0 0 0 0 -4 0 0 0 0 0 0 0 # RecrDist_Area_1
- # 0 0 0 0 0 0 -4 0 0 0 0 0 0 0 # RecrDist_month_1
+# Recruitment Distribution
+##### 28/10 #########
+#_ LO      HI      INIT      PRIOR    PR_SD   PR_type  PHASE   env_var&link dev_link dev_minyr dev_maxyr dev_PH Block Block_Fxn
+ # 0       0        0        0        0       0        -4      0 0 0 0 0 0 0 # RecrDist_GP_1
+ # 0       0        0        0        0       0        -4      0 0 0 0 0 0 0 # RecrDist_Area_1
+ # 0       0        0        0        0       0        -4      0 0 0 0 0 0 0 # RecrDist_month_1
 #  Cohort growth dev base
- 0.1 10 1 1 1 0 -1 0 0 0 0 0 0 0 # CohortGrowDev
+   0.1     10       1        1        1       0        -1      0 0 0 0 0 0 0 # CohortGrowDev
 #  Movement
 #  Age Error from parameters
 #  catch multiplier
 #  fraction female, by GP
- 1e-06 0.999999 0.5 0.5 0.5 0 -99 0 0 0 0 0 0 0 # FracFemale_GP_1
+   1e-06    0.999999 0.5     0.5      0.5     0        -99     0 0 0 0 0 0 0 # FracFemale_GP_1
 #
 #_no timevary MG parameters
 #
 #_seasonal_effects_on_biology_parms
  0 0 0 0 0 0 0 0 0 0 #_femwtlen1,femwtlen2,mat1,mat2,fec1,fec2,Malewtlen1,malewtlen2,L1,K
-#_ LO HI INIT PRIOR PR_SD PR_type PHASE
+#_ LO      HI      INIT      PRIOR    PR_SD   PR_type  PHASE
 #_Cond -2 2 0 0 -1 99 -2 #_placeholder when no seasonal MG parameters
 #
 3 #_Spawner-Recruitment; Options: 2=Ricker; 3=std_B-H; 4=SCAA; 5=Hockey; 6=B-H_flattop; 7=survival_3Parm; 8=Shepherd_3Parm; 9=RickerPower_3parm
