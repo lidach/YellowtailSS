@@ -23,16 +23,22 @@
 #_Cond 1.0 # first age that moves (real age at begin of season, not integer) also cond on do_migration>0
 #_Cond 1 1 1 2 4 10 # example move definition for seas=1, morph=1, source=1 dest=2, age1=4, age2=10
 #
-1 #_Nblock_Patterns
- 1 #_blocks_per_pattern 
+#  constant selex in commercial fleet
+# 0 #_Nblock_Patterns
+# 1 #_blocks_per_pattern 
 # begin and end years of blocks
- 1935 2011
+# 1935 2018
+#  time blocks for selex
+1 #_Nblock_Patterns
+1 #_blocks_per_pattern 
+# begin and end years of blocks
+1999 2011	#	modern 6.5 inch mesh for trawls 
 #
 # controls for all timevary parameters 
 1 #_env/block/dev_adjust_method for all time-vary parms (1=warn relative to base parm bounds; 3=no bound check)
 #
 # AUTOGEN
-0 0 0 0 0 # autogen: 1st element for biology, 2nd for SR, 3rd for Q, 4th reserved, 5th for selex
+0 0 0 0 1 # autogen: 1st element for biology, 2nd for SR, 3rd for Q, 4th reserved, 5th for selex
 # where: 0 = autogen all time-varying parms; 1 = read each time-varying parm line; 2 = read then autogen if parm min==-12345
 #
 #_Available timevary codes
@@ -44,9 +50,10 @@
 #
 #  ------------------------------------------------  NAT MORT , GROWTH , FECUNDITY , REC , MOVEMENT
 #
-3 	#_natM_type:_0=1Parm; 1=N_breakpoints;_2=Lorenzen;_3=agespecific;_4=agespec_withseasinterpolate
+2 	#_natM_type:_0=1Parm; 1=N_breakpoints;_2=Lorenzen;_3=agespecific;_4=agespec_withseasinterpolate
+1	#Lorenzen ref age
 # a0	a1	a2	a3	a4	a5	a6+		used average from table B7
-0.414 	0.338 	0.294 	0.272 	0.254 	0.228 	0.228
+# 1.81 	0.293 	0.215 	0.194 	0.186 	0.182 	0.18
 #
 1 	# GrowthModel: 1=vonBert with L1&L2; 2=Richards with L1&L2; 3=age_specific_K_incr; 4=age_specific_K_decr; 5=age_specific_K_each; 6=NA; 7=NA; 8=growth cessation
 0 	#_Age(post-settlement)_for_L1;linear growth below this
@@ -65,13 +72,14 @@
 #
 #_GROWTH MATURITY FECUNDITY
 #_ LO 	HI 	INIT 	PRIOR 	PR_SD 	PR_type PHASE 	env_link dev_link dev_minyr dev_maxyr dev_PH Block Block_Fxn
- 1 	45 	16.28	16.28 	0 	0 	-2 	0 0 0 0 0 0 0 	# L_at_Amin_Fem_GP_1
- 10 	50 	35.6 	35.6 	0 	0 	-4 	0 0 0 0 0 0 0 	# L_at_Amax_Fem_GP_1
- 0.05 	1.5 	0.97	0.97 	0 	0 	-4 	0 0 0 0 0 0 0 	# VonBert_K_Fem_GP_1
+ 0.1 	0.4 	0.3	0.3 	0 	0 	-2 	0 0 0 0 0 0 0 	# M_fem_Lorenz_at_ref 
+ 0.01 	20 	5.7	3.5 	0 	0 	7 	0 0 0 0 0 0 0 	# L_at_Amin_Fem_GP_1  		# fall
+ 30 	50 	35.2 	35.2 	0 	0 	7 	0 0 0 0 0 0 0 	# L_at_Amax_Fem_GP_1
+ 0.3 	0.99 	0.85	0.85 	0 	0 	7 	0 0 0 0 0 0 0 	# VonBert_K_Fem_GP_1
  0.05 	0.25 	0.1 	0.1 	0 	0 	-3 	0 0 0 0 0 0 0 	# CV_young_Fem_GP_1
  0.05 	0.25 	0.1 	0.1 	0 	0 	-3 	0 0 0 0 0 0 0 	# CV_old_Fem_GP_1
- -3 	3   4.0023e-06 	4.0023e-06  0 	0 	-3 	0 0 0 0 0 0 0 	# Wtlen_1_Fem_GP_1
- -3 	4 	3.23 	3.23 	0 	0 	-3 	0 0 0 0 0 0 0 	# Wtlen_2_Fem_GP_1
+ 1e-10 	1e-3   9.7e-06  9.7e-06  0 	0 	7 	0 0 0 0 0 0 0 	# Wtlen_1_Fem_GP_1		# fall
+ 2.5 	3.5 	2.96 	2.96 	0 	0 	7 	0 0 0 0 0 0 0 	# Wtlen_2_Fem_GP_1
  20 	35 	27.4 	27.4 	0 	0 	-3 	0 0 0 0 0 0 0 	# Mat50%_Fem_GP_1
  -3 	3 	-0.25 	-0.25 	0 	0 	-3 	0 0 0 0 0 0 0 	# Mat_slope_Fem_GP_1
  -3 	3 	1 	1 	0 	0 	-3 	0 0 0 0 0 0 0 	# Eggs/kg_inter_Fem_GP_1
@@ -104,25 +112,25 @@
 0  # 0/1 to use steepness in initial equ recruitment calculation
 0  #  future feature:  0/1 to make realized sigmaR a function of SR curvature
 #_          LO            HI          INIT         PRIOR         PR_SD       PR_type      PHASE    env-var    use_dev   dev_mnyr   dev_mxyr     dev_PH      Block    Blk_Fxn #  parm_name
-             3            31          9            10.3            10             0          1          0          0          0          0          0          0          0 # SR_LN(R0)
-           0.2             1          0.9           0.9          0.05             1         -4          0          0          0          0          0          0          0 # SR_BH_steep
-             0             2          0.3           0.8           0.8             0         -99         0          0          0          0          0          0          0 # SR_sigmaR
+             3            35          12            10.3            10            0          1          0          0          0          0          0          0          0 # SR_LN(R0)
+           0.2             1          0.75          0.75           0.064          3          -1          0          0          0          0          0          0          0 # SR_BH_steep
+             0             2          0.8           0.8           0.8             0         -99         0          0          0          0          0          0          0 # SR_sigmaR
             -5             5            0             0             1             0         -4          0          0          0          0          0          0          0 # SR_regime
              0             0            0             0             0             0         -99         0          0          0          0          0          0          0 # SR_autocorr
 1 #do_recdev:  0=none; 1=devvector (R=F(SSB)+dev); 2=deviations (R=F(SSB)+dev); 3=deviations (R=R0*dev; dev2=R-f(SSB)); 4=like 3 with sum(dev2) adding penalty
 1973 # first year of main recr_devs; early devs can preceed this era
-2011 # last year of main recr_devs; forecast devs start in following year
+2018 # last year of main recr_devs; forecast devs start in following year
 2 #_recdev phase 
 1 # (0/1) to read 13 advanced options
- -6 #_recdev_early_start (0=none; neg value makes relative to recdev_start)
- 4 #_recdev_early_phase
+ 0 #_recdev_early_start (0=none; neg value makes relative to recdev_start)
+ -4 #_recdev_early_phase
  0 #_forecast_recruitment phase (incl. late recr) (0 value resets to maxphase+1)
  1 #_lambda for Fcast_recr_like occurring before endyr+1
- 1940 #_last_yr_nobias_adj_in_MPD; begin of ramp
- 1972 #_first_yr_fullbias_adj_in_MPD; begin of plateau
- 2010 #_last_yr_fullbias_adj_in_MPD
- 2011 #_end_yr_for_ramp_in_MPD (can be in forecast to shape ramp, but SS sets bias_adj to 0.0 for fcast yrs)
- 0.95 #_max_bias_adj_in_MPD (-1 to override ramp and set biasadj=1.0 for all estimated recdevs)
+ 1955 #_last_yr_nobias_adj_in_MPD; begin of ramp
+ 1973 #_first_yr_fullbias_adj_in_MPD; begin of plateau
+ 2019 #_last_yr_fullbias_adj_in_MPD
+ 2019 #_end_yr_for_ramp_in_MPD (can be in forecast to shape ramp, but SS sets bias_adj to 0.0 for fcast yrs)
+ 0.98 #_max_bias_adj_in_MPD (-1 to override ramp and set biasadj=1.0 for all estimated recdevs)
  0 #_period of cycles in recruitment (N parms read below)
  -5 #min rec_dev
  5 #max rec_dev
@@ -142,7 +150,7 @@
 # no additional F input needed for Fmethod 1
 # if Fmethod=2; read overall start F value; overall phase; N detailed inputs to read
 # if Fmethod=3; read N iterations for tuning for Fmethod 3
-4  # N iterations for tuning F in hybrid method (recommend 3 to 7)
+6  # N iterations for tuning F in hybrid method (recommend 3 to 7)
 #
 #  ------------------------------------------------------------  Q SETUP FOR CPUE INDICES
 #_Q_setup for fleets with cpue or survey data
@@ -208,31 +216,59 @@
 #
 #_Pattern 	Discard 	Male 	Special
  12 		0 		0 	0 		# 1 com_domestic
- 12 		0 		0 	0 		# 2 com_foreign
+ 15 		0 		0 	1 		# 2 com_foreign
  12 		0 		0 	0 		# 3 spring_trawl
  12 		0 		0 	0 		# 4 fall_trawl
 #  ---------------------------------------------------------------------------------  SELECTIVITY PARAMETERS
+#  note: in the SAW54, model selectivity was by age, 50% at 3, 100% at 4.
 # ------------ length-based retention and discard mortality for fleet 1
 #_          LO            HI          INIT         PRIOR         PR_SD       PR_type      PHASE    env-var    use_dev   dev_mnyr   dev_mxyr     dev_PH      Block    Blk_Fxn  	#  parm_name
-            10           100         30	           30                1             0          3          0          0          0          0          0          0          0   	#  Retain_L_infl_com_domestic(1)
-            -1            20             1             1             1             0         -3          0          0          0          0          0          0          0  	#  Retain_L_width_com_domestic(1)
-           -10            1000         999            10             1             0         -2          0          0          0          0          0          0          0  	#  Retain_L_asymptote_logit_com_domestic(1)
-            -1             2             0             0             1             0         -4          0          0          0          0          0          0          0  	#  Retain_L_maleoffset_com_domestic(1)
-           -10            10            -5            -5             1             0         -2          0          0          0          0          0          0          0  	#  DiscMort_L_infl_com_domestic(1)
-            -1             2             1             1             1             0         -4          0          0          0          0          0          0          0  	#  DiscMort_L_width_com_domestic(1)
-            -1             2          0.95          0.95             1             0         -2          0          0          0          0          0          0          0  	#  DiscMort_L_level_com_domestic(1)	assumed 95% disc mort for now
-            -1             2             0             0             1             0         -4          0          0          0          0          0          0          0  	#  DiscMort_L_male_offset_com_domestic(1)
-#  -------- age selex
+#             0            60           16          0             0             0           -2          0          0          0          0          0          0          0  	#  LenSel_P1_COM_DOMESTIC
+#             0            30           5           0             0             0           -3          0          0          0          0          0          0          0  	#  LenSel_P2_COM_DOMESTIC
+            10            100           20	    0             0             0            3          0          0          0          0          0          1          2   	#  Retain_L_infl_com_domestic(1)
+            -1            20            5           0      	  0             0            4          0          0          0          0          0          1          2  	#  Retain_L_width_com_domestic(1)
+           -10            1000          999         10            1             0           -2          0          0          0          0          0          1          2  	#  Retain_L_asymptote_logit_com_domestic(1)
+            -1             2             0          0             1             0           -4          0          0          0          0          0          0          0  	#  Retain_L_maleoffset_com_domestic(1)
+           -10            10            -5         -5             1             0           -2          0          0          0          0          0          0          0  	#  DiscMort_L_infl_com_domestic(1)
+            -1             2             1          1             1             0           -4          0          0          0          0          0          0          0  	#  DiscMort_L_width_com_domestic(1)
+            -1             2           0.9        0.9             1             0           -2          0          0          0          0          0          0          0  	#  DiscMort_L_level_com_domestic(1)	assumed 95% disc mort for now
+            -1             2             0          0             1             0           -4          0          0          0          0          0          0          0  	#  DiscMort_L_male_offset_com_domestic(1)
+#  -------- length selex
 #_          LO            HI          INIT         PRIOR         PR_SD       PR_type      PHASE    env-var    use_dev   dev_mnyr   dev_mxyr     dev_PH      Block    Blk_Fxn  	#  parm_name
-             0            10           1.5         0             0             0          2          0          0          0          0          0          0          0  	#  AgeSel_P1_COM_DOMESTIC
-             0            10           0.05        0             0             0          3          0          0          0          0          0          0          0  	#  AgeSel_P2_COM_DOMESTIC
-             0            10           1.5         0             0             0          2          0          0          0          0          0          0          0  	#  AgeSel_P1_COM_FOREIGN
-             0            10           0.05        0             0             0          3          0          0          0          0          0          0          0  	#  AgeSel_P2_COM_FOREIGN
-             0            10           1.5         0             0             0          2          0          0          0          0          0          0          0  	#  AgeSel_P1_SPRING_TRAWL
-	     0            10           0.05        0             0             0          3          0          0          0          0          0          0          0  	#  AgeSel_P2_SPRING_TRAWL
-	     0            10           1.5         0             0             0          2          0          0          0          0          0          0          0  	#  AgeSel_P1_FALL_TRAWL
-             0            10           0.05        0             0             0          3          0          0          0          0          0          0          0  	#  AgeSel_P2_FALL_TRAWL
-#_no timevary selex parameters
+#             0            50           15          0             0             0          4          0          0          0          0          0          0          0  	#  LenSel_P1_COM_FOREIGN
+#             0            30           5           0             0             0          4          0          0          0          0          0          0          0  	#  LenSel_P2_COM_FOREIGN
+#             0            50           20          0             0             0          -2          0          0          0          0          0          0          0  	#  LenSel_P1_SPRING_TRAWL
+#	     0            30           5           0             0             0          -3          0          0          0          0          0          0          0  	#  LenSel_P2_SPRING_TRAWL
+#	     0            50           15          0             0             0          -2          0          0          0          0          0          0          0  	#  LenSel_P1_FALL_TRAWL
+#             0            30           5           0             0             0          -3          0          0          0          0          0          0          0  	#  LenSel_P2_FALL_TRAWL
+#  -------------------- age selex init close to SS estimate
+             0            10          2.3          0             0             0          3          0          0          0          0          0          1          2  	#  AgeSel_P1_com_domestic
+	     0            5           0.5          0             0             0          4          0          0          0          0          0          1          2  	#  AgeSel_P2_com_domestic
+#_flt2	     0            10          2.3          0             0             0          2          0          0          0          0          0          0          0  	#  AgeSel_P1_com_foreign
+#_flt2	     0            5           0.5          0             0             0          3          0          0          0          0          0          0          0  	#  AgeSel_P2_com_foreign
+             0            10          2.3          0             0             0          5          0          0          0          0          0          0          0  	#  AgeSel_P1_SPRING_TRAWL
+	     0            5           0.5          0             0             0          6          0          0          0          0          0          0          0  	#  AgeSel_P2_SPRING_TRAWL
+	     0            10          1.5          0             0             0          3          0          0          0          0          0          0          0  	#  AgeSel_P1_FALL_TRAWL
+             0            5           0.1          0             0             0          4          0          0          0          0          0          0          0  	#  AgeSel_P2_FALL_TRAWL
+#  -------------------- age selex: surveys fixed to mimic 2019 update
+#            0            10          2.3          0             0             0          2          0          0          0          0          0          0          0  	#  AgeSel_P1_com_domestic
+#	     0            5           0.5          0             0             0          3          0          0          0          0          0          0          0  	#  AgeSel_P2_com_domestic
+#	     0            10          2.3          0             0             0          2          0          0          0          0          0          0          0  	#  AgeSel_P1_com_foreign
+#	     0            5           0.5          0             0             0          3          0          0          0          0          0          0          0  	#  AgeSel_P2_com_foreign
+#            0            10          3.0          0             0             0          2          0          0          0          0          0          0          0  	#  AgeSel_P1_SPRING_TRAWL
+#	     0            5           0.5          0             0             0          3          0          0          0          0          0          0          0  	#  AgeSel_P2_SPRING_TRAWL
+#	     0            10          3.0          0             0             0          2          0          0          0          0          0          0          0  	#  AgeSel_P1_FALL_TRAWL
+#            0            5           0.5          0             0             0          3          0          0          0          0          0          0          0  	#  AgeSel_P2_FALL_TRAWL
+#
+#_ TIME VARYING LENGTH retention for commercial fleet	#auto-gen in beginning of ctl was set to 1 for selex, below time vary parms only need the 1999+ block
+#_          LO            HI          INIT         PRIOR         PR_SD       PR_type      PHASE  	#  parm_name
+            10            100           26	    0             0             0            3       	#  Retain_L_infl_com_domestic(1)_1999_2018
+            -1            20            5           0      	  0             0            4      	#  Retain_L_width_com_domestic(1)_1999_2018
+           -10            1000          999         10            1             0           -2      	#  Retain_L_asymptote_logit_com_domestic(1)_1999_2018
+#_ TIME VARYING LENGTH SELECTIVITY for commercial fleet
+#_          LO            HI          INIT         PRIOR         PR_SD       PR_type      PHASE  	#  parm_name
+             0            10           2.5          0             0             0          3          	#  AgeSel_P1_com_domestic_1999_2018
+	     0            5            0.5          0             0             0          4          	#  AgeSel_P2_com_domestic_1999_2018
 #
 0   #  use 2D_AR1 selectivity(0/1):  experimental feature
 #_no 2D_AR1 selex offset used
@@ -252,11 +288,17 @@
  #_5=mult_by_agecomp_N
  #_6=mult_by_size-at-age_N
  #_7=mult_by_generalized_sizecomp
-#_Factor  Fleet  Value
- -9999   1    0  # terminator
+#_Fact	Fleet	Value
+5	1	1		# com_domestic age comps	
+5	3	1		# spr_survey age comps multiplicative
+1	3	1		# spr_survey CPUE additive
+5	4	1		# fall_survey age comps multiplicative
+1	4	1		# fall_survey CPUE additive
+
+-9999   0    	0  # terminator
 #   -------------------------------------------------------------------- LAMBDAS
 4 #_maxlambdaphase
-0 #_sd_offset; must be 1 if any growthCV, sigmaR, or survey extraSD is an estimated parameter
+1 #_sd_offset; must be 1 if any growthCV, sigmaR, or survey extraSD is an estimated parameter
 # read 3 changes to default Lambdas (default value is 1.0)
 # Like_comp codes:  1=surv; 2=disc; 3=mnwt; 4=length; 5=age; 6=SizeFreq; 7=sizeage; 8=catch; 9=init_equ_catch; 
 # 10=recrdev; 11=parm_prior; 12=parm_dev; 13=CrashPen; 14=Morphcomp; 15=Tag-comp; 16=Tag-negbin; 17=F_ballpark; 18=initEQregime
