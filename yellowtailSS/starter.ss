@@ -4,7 +4,7 @@
 #_user_support_available_at:NMFS.Stock.Synthesis@noaa.gov
 #_user_info_available_at:https://vlab.ncep.noaa.gov/group/stock-synthesis
 #C starter comment here
-ytdata.ss
+yt2data.ss
 ytcontrol.ss
 0 # 0=use init values in control file; 1=use ss.par
 1 # run display detail (0,1,2)
