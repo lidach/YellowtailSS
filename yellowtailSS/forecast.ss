@@ -26,7 +26,7 @@
 0 #_Forecast recruitment:  0= spawn_recr; 1=value*spawn_recr_fxn; 2=value*VirginRecr; 3=recent mean from yr range above (need to set phase to -1 in control to get constant recruitment in MCMC)
 1 # value is ignored 
 0 #_Forecast loop control #5 (reserved for future bells&whistles) 
-2020  #FirstYear for caps and allocations (should be after years with fixed inputs) 
+2011  #FirstYear for caps and allocations (should be after years with fixed inputs) 
 0 # stddev of log(realized catch/target catch) in forecast (set value>0.0 to cause active impl_error)
 0 # Do West Coast gfish rebuilder output (0/1) 
 1999 # Rebuilder:  first year catch could have been set to zero (Ydecl)(-1 to set to 1999)
@@ -39,18 +39,20 @@
 # 1 1 1
 # -9999 0 0  # terminator for list of relF
 # enter list of: fleet number, max annual catch for fleets with a max; terminate with fleet=-9999
+# 1 50
+# 2 100
 -9999 -1
 # enter list of area ID and max annual catch; terminate with area=-9999
 -9999 -1
 # enter list of fleet number and allocation group assignment, if any; terminate with fleet=-9999
 -9999 -1
-#_if N allocation groups >0, list year, allocation fraction for each group 
+# _if N allocation groups >0, list year, allocation fraction for each group 
 # list sequentially because read values fill to end of N forecast
 # terminate with -9999 in year field 
 # no allocation groups
-2 # basis for input Fcast catch: -1=read basis with each obs; 2=dead catch; 3=retained catch; 99=input Hrate(F)
-#enter list of Fcast catches; terminate with line having year=-9999
-#_Yr Seas Fleet Catch(or_F)
+2 # basis for input Fcast catch: -1=read basis with each obs; 2=dead catch; 3=retained catch; 99=input Hrate(F) if you use otion 2 you don't need the last column
+# enter list of Fcast catches; terminate with line having year=-9999
+#_Yr Seas FleetInput Catch(or_F)
 -9999 1 1 0 
 #
 999 # verify end of input 
