@@ -5,12 +5,12 @@
 #_user_info_available_at:https://vlab.ncep.noaa.gov/group/stock-synthesis
 #C starter comment here
 exdata.ss
-excontrol.ss
+excontrol2.ss
 0 # 0=use init values in control file; 1=use ss.par
 1 # run display detail (0,1,2)
 1 # detailed output (0=minimal for data-limited, 1=high (w/ wtatage.ss_new), 2=brief) 
 0 # write 1st iteration details to echoinput.sso file (0,1) 
-0 # write parm values to ParmTrace.sso (0=no,1=good,active; 2=good,all; 3=every_iter,all_parms; 4=every,active)
+4 # write parm values to ParmTrace.sso (0=no,1=good,active; 2=good,all; 3=every_iter,all_parms; 4=every,active)
 0 # write to cumreport.sso (0=no,1=like&timeseries; 2=add survey fits)
 1 # Include prior_like for non-estimated parameters (0,1) 
 1 # Use Soft Boundaries to aid convergence (0,1) (recommended)
