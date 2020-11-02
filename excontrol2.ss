@@ -64,18 +64,18 @@
 1 	#_parameter_offset_approach (1=none, 2= M, G, CV_G as offset from female-GP1, 3=like SS2 V1.x)
 #
 #_GROWTH MATURITY FECUNDITY
-#_ LO 	HI 	INIT 	PRIOR 	PR_SD 	PR_type PHASE 	env_link dev_link dev_minyr dev_maxyr dev_PH Block Block_Fxn
- 1 	45 	16.28	16.28 	0 	0 	-2 	0 0 0 0 0 0 0 	# L_at_Amin_Fem_GP_1
- 10 	50 	35.6 	35.6 	0 	0 	-4 	0 0 0 0 0 0 0 	# L_at_Amax_Fem_GP_1
- 0.05 	1.5 	0.97	0.97 	0 	0 	-4 	0 0 0 0 0 0 0 	# VonBert_K_Fem_GP_1
- 0.05 	0.25 	0.1 	0.1 	0 	0 	-3 	0 0 0 0 0 0 0 	# CV_young_Fem_GP_1
- 0.05 	0.25 	0.1 	0.1 	0 	0 	-3 	0 0 0 0 0 0 0 	# CV_old_Fem_GP_1
- -3 	3   4.0023e-06 	4.0023e-06  0 	0 	-3 	0 0 0 0 0 0 0 	# Wtlen_1_Fem_GP_1
- -3 	4 	3.23 	3.23 	0 	0 	-3 	0 0 0 0 0 0 0 	# Wtlen_2_Fem_GP_1
- 20 	35 	27.4 	27.4 	0 	0 	-3 	0 0 0 0 0 0 0 	# Mat50%_Fem_GP_1
- -3 	3 	-0.25 	-0.25 	0 	0 	-3 	0 0 0 0 0 0 0 	# Mat_slope_Fem_GP_1
- -3 	3 	1 	1 	0 	0 	-3 	0 0 0 0 0 0 0 	# Eggs/kg_inter_Fem_GP_1
- -3 	3 	0 	0 	0 	0 	-3 	0 0 0 0 0 0 0 	# Eggs/kg_slope_wt_Fem_GP_1
+#_ LO 	     HI 	INIT 	      PRIOR 	 PR_SD 	PR_type PHASE 	env_link dev_link 	dev_minyr 	dev_maxyr 	dev_PH 	Block 	Block_Fxn
+ 	1 	     45 	5.7   	      5.7 	     0 		0 		-7 		0		 0 			0 			0 			0 		0 		0 	# L_at_Amin_Fem_GP_1
+    10 	     50 	35.6 	      35.6 	     0 	    0 	    -7 	    0        0          0           0           0       0       0 	# L_at_Amax_Fem_GP_1
+    0.05 	 1.5 	0.97	      0.97 	     0 	    0 	    -7 	    0        0          0           0           0       0       0 	# VonBert_K_Fem_GP_1
+    0.05 	 0.25 	0.1 	      0.1 	     0 	    0 	    -3 	    0        0          0           0           0       0       0 	# CV_young_Fem_GP_1
+    0.05 	 0.25 	0.1 	      0.1 	     0 	    0 	    -3 	    0        0          0           0           0       0       0 	# CV_old_Fem_GP_1
+    -3 	     3      4.0023e-06 	  4.0023e-06 0 	    0 	    -7 	    0        0          0           0           0       0       0 	# Wtlen_1_Fem_GP_1
+    -3 	     4 	    3.23 	      3.23 	     0 	    0 	    -7 	    0        0          0           0           0       0       0 	# Wtlen_2_Fem_GP_1
+    20 	     35 	27.4 	      27.4 	     0 	    0 	    -3 	    0        0          0           0           0       0       0 	# Mat50%_Fem_GP_1
+    -3 	     3 	    -0.25 	      -0.25 	 0 	    0 	    -3 	    0        0          0           0           0       0       0 	# Mat_slope_Fem_GP_1
+    -3 	     3 	    1 	          1 	     0 	    0 	    -3 	    0        0          0           0           0       0       0 	# Eggs/kg_inter_Fem_GP_1
+    -3 	     3 	    0 	          0 	     0 	    0 	    -3 	    0        0          0           0           0       0       0 	# Eggs/kg_slope_wt_Fem_GP_1
 # Hermaphroditism
 #  Recruitment Distribution 
 #_ LO 	HI 	INIT 	PRIOR 	PR_SD 	PR_type PHASE 	env_link dev_link dev_minyr dev_maxyr dev_PH Block Block_Fxn
@@ -104,13 +104,13 @@
 0  # 0/1 to use steepness in initial equ recruitment calculation
 0  #  future feature:  0/1 to make realized sigmaR a function of SR curvature
 #_          LO            HI          INIT         PRIOR         PR_SD       PR_type      PHASE    env-var    use_dev   dev_mnyr   dev_mxyr     dev_PH      Block    Blk_Fxn #  parm_name
-             3            31          9            10.3            10             0          1          0          0          0          0          0          0          0 # SR_LN(R0)
-           0.2             1          0.9           0.9          0.05             1         -4          0          0          0          0          0          0          0 # SR_BH_steep
-             0             2          0.3           0.8           0.8             0         -99         0          0          0          0          0          0          0 # SR_sigmaR
-            -5             5            0             0             1             0         -4          0          0          0          0          0          0          0 # SR_regime
+             3            31          9            10.3            10             0         1          0          0          0          0          0          0          0 # SR_LN(R0)
+           0.2             1          0.75           0.75          0.064          3         -1          0          0          0          0          0          0          0 # SR_BH_steep
+             0             2          0.8           0.8           0.8             0         -99         0          0          0          0          0          0          0 # SR_sigmaR
+            -5             5            0             0             1             0         -99          0          0          0          0          0          0          0 # SR_regime
              0             0            0             0             0             0         -99         0          0          0          0          0          0          0 # SR_autocorr
 1 #do_recdev:  0=none; 1=devvector (R=F(SSB)+dev); 2=deviations (R=F(SSB)+dev); 3=deviations (R=R0*dev; dev2=R-f(SSB)); 4=like 3 with sum(dev2) adding penalty
-1973 # first year of main recr_devs; early devs can preceed this era
+1973 # first year of main recr_devs, for yellowtails this is the first year with age comp data; early devs can preceed this era
 2011 # last year of main recr_devs; forecast devs start in following year
 2 #_recdev phase 
 1 # (0/1) to read 13 advanced options
