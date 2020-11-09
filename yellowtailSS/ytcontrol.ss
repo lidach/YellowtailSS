@@ -145,12 +145,12 @@
 # -----------------------------  FISHING MORTALITY SETUP
  0.3 # F ballpark
  -2001 # F ballpark year (neg value to disable F ballpark)
- 3 # F_Method:  1=Pope; 2=instan.(Baranov) every F is a parm use if you have bycatch fleets; 3=hybrid Baranov by F not parms (hybrid is recommended)
+ 2 # F_Method:  1=Pope; 2=instan.(Baranov) every F is a parm use if you have bycatch fleets; 3=hybrid Baranov by F not parms (hybrid is recommended)
  3 # max F or harvest rate, depends on F_Method
- 6  # N iterations for tuning F in hybrid method (recommend 3 to 7)
+# 6  # N iterations for tuning F in hybrid method (recommend 3 to 7)
  # no additional F input needed for Fmethod 1
 # if Fmethod=2; read overall start F value; overall phase; N detailed inputs to read
-# 0.05 1 0
+ 0.05 1 0
  # setup initial F parms
 # LO 	HI 	INIT 	PRIOR 	PR_SD 	pR_TYPE  PHASE
  0.01	0.7	0.05	0	0	0	 1		#commercial_domestic
@@ -280,11 +280,11 @@
  #_6=mult_by_size-at-age_N
  #_7=mult_by_generalized_sizecomp
 #_Fact	Fleet	Value
-5	1	1		# com_domestic age comps	
-5	3	1		# spr_survey age comps multiplicative
-1	3	0		# spr_survey CPUE additive
-5	4	1		# fall_survey age comps multiplicative
-1	4	0		# fall_survey CPUE additive
+5	1	0.694807		# com_domestic age comps	
+5	3	0.402583		# spr_survey age comps multiplicative
+1	3	0			# spr_survey CPUE additive
+5	4	0.791106		# fall_survey age comps multiplicative
+1	4	0			# fall_survey CPUE additive
 
 -9999   0    	0  # terminator
 #   -------------------------------------------------------------------- LAMBDAS
