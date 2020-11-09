@@ -4,7 +4,9 @@
 #_user_support_available_at:NMFS.Stock.Synthesis@noaa.gov
 #_user_info_available_at:https://vlab.ncep.noaa.gov/group/stock-synthesis
 #_data_and_control_files: ytdata.ss // ytcontrol.ss
-
+# preliminary basic SS assessment setup for SNE/MA yellowtail flounder. For all bells and whistles (time vary selex,
+#		environmental rec., weight-at-age obs, estimated growth) see 'kitchen_sink'
+#	Assembled for Andre Punt's 2020 intro SS class. contact erin.bohaboy@noaa.gov.
 #  ------------------------------------------------  PRELIMINARIES
 0  # 0 means do not read wtatage.ss; 1 means read and use wtatage.ss and also read and use growth parameters
 1  #_N_Growth_Patterns

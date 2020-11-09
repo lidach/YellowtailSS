@@ -3,7 +3,9 @@
 #_user_support_available_at:NMFS.Stock.Synthesis@noaa.gov
 #_user_info_available_at:https://vlab.ncep.noaa.gov/group/stock-synthesis
 #_data_and_control_files: ytdata.ss // ytcontrol.ss
-
+# preliminary 'kitchen sink' SS assessment setup for SNE/MA yellowtail flounder. This model does not converge. Will need better data.
+#	see 'basic' for a model that converges and mimics the 2019 ASAP model run.
+#	Assembled for Andre Punt's 2020 intro SS class. contact erin.bohaboy@noaa.gov.
 #  prior types: 0=none, 1=sym beta, 2=full beta, 3=longnorm no bias adj, 4= lognorm w/ bias adj., 5=gamma, 6=normal.
 #  ------------------------------------------------  PRELIMINARIES
 0  # 0 means do not read wtatage.ss; 1 means read and use wtatage.ss and also read and use growth parameters
